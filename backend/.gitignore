@@ -1,0 +1,12 @@
+# PACKAGES
+
+/node_modules
+yarn.lock
+
+# ENVIRONMENT
+
+.env
+
+# TMP
+
+/tmp
