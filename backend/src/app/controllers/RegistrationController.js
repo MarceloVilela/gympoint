@@ -99,7 +99,7 @@ class RegistrationController {
     const { page = 1 } = req.query;
 
     const registration = await Registration.findAll({
-      attributes: ['id', 'start_date', 'end_date', 'price'],
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
       order: ['created_at'],
       limit: 20,
       offset: (page - 1) * 20,
@@ -137,7 +137,7 @@ class RegistrationController {
 
     const registration = await Registration.findOne({
       where: { id },
-      attributes: ['id', 'start_date', 'end_date', 'price', 'canceled_at'],
+      attributes: ['id', 'start_date', 'end_date', 'price', 'canceled_at', 'active'],
       include: [
         {
           model: Student,
