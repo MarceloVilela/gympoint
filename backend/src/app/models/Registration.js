@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+import sequelizePaginate from 'sequelize-paginate';
 import { isAfter, isBefore } from 'date-fns';
 
 class Registration extends Model {
@@ -26,6 +27,8 @@ class Registration extends Model {
         sequelize,
       },
     );
+
+    sequelizePaginate.paginate(this);
 
     return this;
   }

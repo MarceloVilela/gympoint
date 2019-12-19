@@ -34,9 +34,18 @@ class PlanController {
   }
 
   async index(req, res) {
-    const Plans = await Plan.findAll({ where: { canceled_at: null } });
+    const { page } = req.query;
 
-    return res.json(Plans);
+    const options = {
+      where: { canceled_at: null },
+      page,
+      paginate: 10,
+      order: [['id', 'ASC']],
+    };
+
+    const { docs, pages, total } = await Plan.paginate(options);
+
+    return res.json({ docs, pages, total });
   }
 
   async show(req, res) {

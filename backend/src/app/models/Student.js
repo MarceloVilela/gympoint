@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+import sequelizePaginate from 'sequelize-paginate';
 import { differenceInCalendarYears } from 'date-fns';
 
 class Student extends Model {
@@ -16,11 +17,14 @@ class Student extends Model {
         birth: Sequelize.DATE,
         weight: Sequelize.FLOAT,
         height: Sequelize.FLOAT,
+        canceled_at: Sequelize.DATE,
       },
       {
         sequelize,
       },
     );
+
+    sequelizePaginate.paginate(this);
 
     return this;
   }

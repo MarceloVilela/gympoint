@@ -61,11 +61,11 @@ class HelpAnswerController {
 
     const { page = 1 } = req.query;
 
-    const orders = await HelpOrder.findAll({
+    const options = {
       where: { answer_at: null },
-      order: ['created_at'],
-      limit: 20,
-      offset: (page - 1) * 20,
+      page,
+      paginate: 10,
+      order: [['id', 'ASC']],
       include: [
         {
           model: Student,
@@ -73,9 +73,11 @@ class HelpAnswerController {
           attributes: ['id', 'name', 'email'],
         },
       ],
-    });
+    };
 
-    return res.json(orders);
+    const { docs, pages, total } = await HelpOrder.paginate(options);
+
+    return res.json({ docs, pages, total });
   }
 }
 

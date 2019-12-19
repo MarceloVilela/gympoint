@@ -32,11 +32,19 @@ class StudentController {
   }
 
   async index(req, res) {
-    const { q } = req.query;
+    const { page, q } = req.query;
     const where = q ? { name: { [Op.iLike]: `%${q}%` }, canceled_at: null } : { canceled_at: null };
-    const Students = await Student.findAll({ where });
 
-    return res.json(Students);
+    const options = {
+      page,
+      paginate: 10,
+      order: [['id', 'ASC']],
+      where,
+    };
+
+    const { docs, pages, total } = await Student.paginate(options);
+
+    return res.json({ docs, pages, total });
   }
 
   async show(req, res) {

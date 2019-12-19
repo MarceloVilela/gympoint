@@ -98,12 +98,13 @@ class RegistrationController {
 
     const { page = 1 } = req.query;
 
-    const registrations = await Registration.findAll({
+    const options = {
       where: { canceled_at: null },
+      page,
+      paginate: 10,
+      order: [['id', 'ASC']],
       attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
       order: ['created_at'],
-      limit: 20,
-      offset: (page - 1) * 20,
       include: [
         {
           model: Student,
@@ -116,9 +117,11 @@ class RegistrationController {
           attributes: ['id', 'title'],
         },
       ],
-    });
+    };
 
-    return res.json(registrations);
+    const { docs, pages, total } = await Registration.paginate(options);
+
+    return res.json({ docs, pages, total });
   }
 
   async show(req, res) {
