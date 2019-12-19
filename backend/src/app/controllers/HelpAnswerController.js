@@ -68,8 +68,8 @@ class HelpAnswerController {
       offset: (page - 1) * 20,
       include: [
         {
-          model: User,
-          as: 'user',
+          model: Student,
+          as: 'student',
           attributes: ['id', 'name', 'email'],
         },
       ],
