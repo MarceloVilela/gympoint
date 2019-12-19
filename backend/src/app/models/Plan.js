@@ -5,8 +5,14 @@ class Plan extends Model {
     super.init(
       {
         title: Sequelize.STRING,
-        duration: Sequelize.INTEGER,
+        price_total: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return this.price * this.duration;
+          },
+        },
         price: Sequelize.FLOAT,
+        duration: Sequelize.INTEGER,
         canceled_at: Sequelize.DATE,
       },
       {
