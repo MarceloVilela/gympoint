@@ -30,8 +30,8 @@ export default function RegistrationForm({ title, initialData, handleSubmit }) {
 
   const promiseOptions = async inputValue => {
     try {
-      const response = await api.get(`students?q=${inputValue}&page=1`);
-      const options = response.data.map(item => ({
+      const {data: {docs}} = await api.get(`students?q=${inputValue}&page=1`);
+      const options = docs.map(item => ({
         value: item.id,
         label: `${item.name} - ${item.email}`,
       }));
@@ -44,8 +44,10 @@ export default function RegistrationForm({ title, initialData, handleSubmit }) {
   useEffect(() => {
     async function loadPlans() {
       try {
-        const response = await api.get(`plans?page=${1}`);
-        setPlanList(response.data);
+        const {
+          data: { docs },
+        } = await api.get(`plans?page=${1}`);
+        setPlanList(docs);
       } catch (error) {
         toast.error('Erro ao listar plano');
       }

@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react';
 
 import api from '../../../services/api';
+import Pagination from '../../../components/Pagination';
 import { Container } from '../../_layouts/default/styles';
 import Modal from '../../../components/Modal';
 import HelpUpdate from '../Update';
 
 export default function HelpShow() {
   const [helps, setHelps] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
+
   const [currentHelp, setCurrentHelp] = useState({});
   const [openModal, setOpenModal] = useState(false);
 
   async function loadHelps() {
-    const response = await api.get(`help-orders?page=${1}`);
-    setHelps(response.data);
+    const {
+      data: { docs, pages },
+    } = await api.get(`help-orders?page=${page}`);
+    setPageTotal(pages);
+    setHelps(docs);
   }
 
   useEffect(() => {
     loadHelps();
-  }, []);
+  }, [page]);
 
   const handleAnswer = help => {
     setCurrentHelp(help);
@@ -50,6 +57,7 @@ export default function HelpShow() {
           </li>
         ))}
       </ul>
+      <Pagination current={page} total={pageTotal} setPage={setPage} />
 
       <Modal open={openModal} reset={handlePropagatesClose}>
         <HelpUpdate

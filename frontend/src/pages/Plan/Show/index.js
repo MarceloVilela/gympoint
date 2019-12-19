@@ -4,16 +4,22 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
+import Pagination from '../../../components/Pagination';
 import { Container } from '../../_layouts/default/styles';
 
 export default function Profile() {
-  const [plans, setplans] = useState([]);
+  const [plans, setPlans] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
 
   async function loadPlans() {
     try {
-      const response = await api.get(`plans?page=${1}`);
+      const {
+        data: { docs, pages },
+      } = await api.get(`plans?page=${page}`);
+      setPageTotal(pages);
 
-      const plansFormatted = response.data.map(plan => ({
+      const plansFormatted = docs.map(plan => ({
         ...plan,
         durationDesc:
           plan.duration === 1
@@ -21,7 +27,7 @@ export default function Profile() {
             : `${plan.duration} meses`,
       }));
 
-      setplans(plansFormatted);
+      setPlans(plansFormatted);
     } catch (error) {
       toast.error('Erro ao listar planos');
     }
@@ -29,7 +35,7 @@ export default function Profile() {
 
   useEffect(() => {
     loadPlans();
-  }, []);
+  }, [page]);
 
   const handleDelete = async id => {
     if (window.confirm('Tem certeza que deseja apagar plano?')) {
@@ -91,6 +97,7 @@ export default function Profile() {
           </li>
         ))}
       </ul>
+      <Pagination current={page} total={pageTotal} setPage={setPage} />
     </Container>
   );
 }

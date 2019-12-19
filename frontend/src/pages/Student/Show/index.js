@@ -1,20 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MdAdd, MdSearch } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { MdAdd, MdSearch } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
+import Pagination from '../../../components/Pagination';
 import { Container } from '../../_layouts/default/styles';
 
 export default function StudentShow() {
   const [students, setStudents] = useState([]);
   const [q, setQ] = useState('');
-  const [page] = useState('1');
+  const [page, setPage] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
 
   const loadStudents = useCallback(async () => {
     try {
       const response = await api.get(`students?q=${q}&page=${page}`);
-      setStudents(response.data);
+      const { docs, pages } = response.data;
+      setPageTotal(pages);
+      setStudents(docs);
     } catch (error) {
       toast.error('Erro ao listar alunos');
     }
@@ -95,34 +99,7 @@ export default function StudentShow() {
           </li>
         ))}
       </ul>
+      <Pagination current={page} total={pageTotal} setPage={setPage} />
     </Container>
   );
 }
-
-/*
-      <ul>
-        <li>
-          <div>
-            <strong>ALUNO</strong>
-          </div>
-        </li>
-        <li>
-          <div>Marcelo Vilela</div>
-          <div>
-            <span>responder</span>
-          </div>
-        </li>
-        <li>
-          <div>Marcelo Vilela</div>
-          <div>
-            <span>responder</span>
-          </div>
-        </li>
-        <li>
-          <div>Marcelo Vilela</div>
-          <div>
-            <span>responder</span>
-          </div>
-        </li>
-      </ul>
-*/

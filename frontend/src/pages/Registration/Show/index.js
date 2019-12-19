@@ -5,15 +5,23 @@ import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
 import { textualDate } from '../../../services/date';
+import Pagination from '../../../components/Pagination';
 import { Container } from '../../_layouts/default/styles';
 
 export default function RegistrationShow() {
   const [registrations, setRegistrations] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
 
   async function loadRegistrations() {
     try {
-      const response = await api.get(`registrations?page=${1}`);
-      const registrationsFormated = response.data.map(item => ({
+      const {
+        data: { docs, pages },
+      } = await api.get(`registrations?page=${page}`);
+
+      setPageTotal(pages);
+
+      const registrationsFormated = docs.map(item => ({
         ...item,
         color: item.active ? '#00CC00' : '#CCC',
         start_date: textualDate(item.start_date),
@@ -27,7 +35,7 @@ export default function RegistrationShow() {
 
   useEffect(() => {
     loadRegistrations();
-  }, []);
+  }, [page]);
 
   const handleDelete = async id => {
     if (window.confirm('Tem certeza que deseja apagar matrícula?')) {
@@ -99,6 +107,7 @@ export default function RegistrationShow() {
           </li>
         ))}
       </ul>
+      <Pagination current={page} total={pageTotal} setPage={setPage} />
     </Container>
   );
 }
