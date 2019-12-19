@@ -33,7 +33,8 @@ class StudentController {
 
   async index(req, res) {
     const { q } = req.query;
-    const Students = await Student.findAll({ where: { name: { [Op.iLike]: `%${q}%` } } });
+    const where = q ? { name: { [Op.iLike]: `%${q}%` }, canceled_at: null } : { canceled_at: null };
+    const Students = await Student.findAll({ where });
 
     return res.json(Students);
   }
@@ -88,6 +89,15 @@ class StudentController {
     return res.json({
       id, name, email, age, weight, height,
     });
+  }
+
+  async delete(req, res) {
+    const student = await Student.findByPk(req.params.id);
+
+    student.canceled_at = new Date();
+    await student.save();
+
+    return res.json(student);
   }
 }
 

@@ -34,7 +34,7 @@ class PlanController {
   }
 
   async index(req, res) {
-    const Plans = await Plan.findAll();
+    const Plans = await Plan.findAll({ where: { canceled_at: null } });
 
     return res.json(Plans);
   }

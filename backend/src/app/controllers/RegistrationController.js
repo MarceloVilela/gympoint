@@ -98,7 +98,8 @@ class RegistrationController {
 
     const { page = 1 } = req.query;
 
-    const registration = await Registration.findAll({
+    const registrations = await Registration.findAll({
+      where: { canceled_at: null },
       attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
       order: ['created_at'],
       limit: 20,
@@ -117,11 +118,7 @@ class RegistrationController {
       ],
     });
 
-    if (!registration) {
-      return res.status(400).json({ error: 'Registration not found' });
-    }
-
-    return res.json(registration);
+    return res.json(registrations);
   }
 
   async show(req, res) {
