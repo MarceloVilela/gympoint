@@ -11,5 +11,5 @@ export const List = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
   // contentContainerStyle: { padding: 30 },
 })`
-  margin-top: 30px;
+  margin-top: 20px;
 `;

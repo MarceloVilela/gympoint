@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { withNavigationFocus } from 'react-navigation';
@@ -8,37 +8,68 @@ import Checkin from '~/components/Checkin';
 import Button from '~/components/Button';
 import { Container, List } from './styles';
 
-function CheckinIndex({ isFocused }) {
+function CheckinIndex() {
   const { id } = useSelector(state => state.auth);
-  const [records, setRecords] = useState([]);
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [fineshed, setFineshed] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
-  async function loadRecords() {
-    const response = await api.get(`/students/${id}/checkins`);
-    const _checkins = response.data.map((item, key) => ({
-      ...item,
-      number: key + 1,
-    }));
-    setRecords(_checkins);
-  }
+  const load = useCallback(
+    async (page = 1) => {
+      if (fineshed) return;
+      try {
+        const url = `/students/${id}/checkins?page=${page}`;
+        const response = await api.get(url);
+        const { docs, pages } = response.data;
+        setData(data => data.concat(docs));
+        setPage(page);
+        setRefreshing(false);
+        if (page === pages) {
+          setFineshed(true);
+        }
+      } catch (error) {
+        alert(error);
+      }
+    },
+    [fineshed, id]
+  );
 
+  // when starting page
   useEffect(() => {
-    if (isFocused) {
-      loadRecords();
-    }
-  }, [isFocused, loadRecords]);
+    load();
+  }, [load]);
+
+  // infinite scroll
+  const loadMore = () => {
+    const nextPage = page + 1;
+    load(nextPage);
+  };
+
+  // pull to refresh
+  const refreshList = () => {
+    // reset
+    setData([]);
+    setPage(1);
+    setFineshed(false);
+    setRefreshing(true);
+
+    // load again
+    load();
+  };
 
   return (
     <Container>
       <Button>Novo check-in</Button>
 
       <List
-        data={records}
+        data={data}
         keyExtractor={item => String(item.id)}
-        renderItem={({ item }) => (
-          <Checkin onCancel={() => handleCancel(item.id)} data={item} />
-        )}
-        inverted
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
+        renderItem={({ item }) => <Checkin data={item} />}
+        onEndReachedThreshold={0.2}
+        onEndReached={loadMore}
+        onRefresh={refreshList}
+        refreshing={refreshing}
       />
     </Container>
   );
