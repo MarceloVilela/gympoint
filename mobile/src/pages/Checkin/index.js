@@ -22,7 +22,10 @@ function CheckinIndex() {
         const url = `/students/${id}/checkins?page=${page}`;
         const response = await api.get(url);
         const { docs, pages } = response.data;
-        setData(data => data.concat(docs));
+        let { total } = response.data;
+        setData(data =>
+          data.concat(docs).map(item => ({ ...item, counter: total-- }))
+        );
         setPage(page);
         setRefreshing(false);
         if (page === pages) {

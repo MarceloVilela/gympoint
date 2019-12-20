@@ -16,7 +16,7 @@ export default function Appointment({ data, onCancel }) {
   return (
     <Container past={data.past}>
       <Left>
-        <Name>Check-in #{data.number}</Name>
+        <Name>Check-in #{data.counter}</Name>
       </Left>
 
       <Time>{dateParsed}</Time>
