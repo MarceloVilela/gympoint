@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import PropTypes from 'prop-types';
 
 import Button from '~/components/Button';
 import Container from '~/components/Container';
 import api from '~/services/api';
 import { Form, FormInput } from './styles';
 
-export default function SignIn({ navigation }) {
+export default function HelpNew({ navigation }) {
   const { id } = useSelector(state => state.auth);
   const [question, setQuestion] = useState('');
   const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -51,7 +52,7 @@ export default function SignIn({ navigation }) {
   );
 }
 
-SignIn.navigationOptions = ({ navigation }) => ({
+HelpNew.navigationOptions = ({ navigation }) => ({
   headerLeft: () => (
     <TouchableOpacity
       onPress={() => {
@@ -62,3 +63,9 @@ SignIn.navigationOptions = ({ navigation }) => ({
     </TouchableOpacity>
   ),
 });
+
+HelpNew.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};

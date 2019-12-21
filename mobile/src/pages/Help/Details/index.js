@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import PropTypes from 'prop-types';
 
 import Container from '~/components/Container';
 import {
-  Scroll,
   MessageList,
   ContainerMessage,
   Header,
@@ -13,7 +13,7 @@ import {
   Body,
 } from './styles';
 
-export default function HelpDetails({ navigation, isFocused }) {
+export default function HelpDetails({ navigation }) {
   const helpOrder = navigation.getParam('helpOrderData');
 
   return (
@@ -51,3 +51,15 @@ HelpDetails.navigationOptions = ({ navigation }) => ({
     </TouchableOpacity>
   ),
 });
+
+HelpDetails.propTypes = {
+  data: PropTypes.shape({
+    created_at: PropTypes.oneOfType(PropTypes.object, PropTypes.number),
+    answer: PropTypes.string,
+    question: PropTypes.string,
+  }).isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    getParam: PropTypes.func.isRequired,
+  }).isRequired,
+};

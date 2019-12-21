@@ -6,16 +6,15 @@ import {
   createBottomTabNavigator,
   createStackNavigator,
 } from 'react-navigation';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import SignIn from './pages/SignIn';
-
 import Checkin from './pages/Checkin';
-
 import HelpIndex from './pages/Help/Index';
 import HelpDetails from './pages/Help/Details';
 import HelpNew from './pages/Help/New';
+// eslint-disable-next-line import/no-unresolved
+import logo from './assets/logo-horizontal.png';
 
 const headerOptions = {
   headerLayoutPreset: 'center',
@@ -26,7 +25,7 @@ const headerOptions = {
       marginLeft: 20,
     },
     //
-    headerTitle: <Image source={require('~/assets/logo-horizontal.png')} />,
+    headerTitle: <Image source={logo} />,
     headerStyle: {
       backgroundColor: '#FFF',
     },
@@ -51,6 +50,7 @@ export default (isSigned = false) =>
               ),
               navigationOptions: {
                 tabBarLabel: 'Check-ins',
+                // eslint-disable-next-line react/prop-types
                 tabBarIcon: ({ tintColor }) => (
                   <Icon name="local-pizza" size={20} color={tintColor} />
                 ),
@@ -68,6 +68,7 @@ export default (isSigned = false) =>
               ),
               navigationOptions: {
                 tabBarLabel: 'Pedir ajuda',
+                // eslint-disable-next-line react/prop-types
                 tabBarIcon: ({ tintColor }) => (
                   <Icon name="live-help" size={20} color={tintColor} />
                 ),
@@ -75,7 +76,7 @@ export default (isSigned = false) =>
             },
           },
           {
-            initialRouteName: 'Help',
+            initialRouteName: 'Checkin',
             resetOnBlur: true,
             tabBarOptions: {
               keyboardHidesTabBar: true,

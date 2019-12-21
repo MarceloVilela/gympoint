@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import { parseISO, formatRelative, formatDistance } from 'date-fns';
+import { parseISO, formatRelative } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import PropTypes from 'prop-types';
 
 import {
   Container,
@@ -15,7 +15,7 @@ import {
   Question,
 } from './styles';
 
-export default function Appointment({ data, navigation }) {
+export default function Help({ data, navigation }) {
   const dateParsed = useMemo(() => {
     return formatRelative(parseISO(data.created_at), new Date(), {
       locale: pt,
@@ -47,3 +47,14 @@ export default function Appointment({ data, navigation }) {
     </TouchableOpacity>
   );
 }
+
+Help.propTypes = {
+  data: PropTypes.shape({
+    created_at: PropTypes.oneOfType(PropTypes.object, PropTypes.number),
+    answer: PropTypes.string,
+    question: PropTypes.string,
+  }).isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};

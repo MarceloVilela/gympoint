@@ -21,20 +21,21 @@ function CheckinIndex() {
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(
-    async (page = 1) => {
+    async (pageNumber = 1) => {
       if (fineshed) return;
       setLoading(true);
       try {
-        const url = `/students/${id}/checkins?page=${page}`;
+        const url = `/students/${id}/checkins?page=${pageNumber}`;
         const response = await api.get(url);
         const { docs, pages } = response.data;
         let { total } = response.data;
-        setData(data =>
-          data.concat(docs).map(item => ({ ...item, counter: total-- }))
+        setData(list =>
+          // eslint-disable-next-line no-plusplus
+          list.concat(docs).map(item => ({ ...item, counter: total-- }))
         );
-        setPage(page);
+        setPage(pageNumber);
         setRefreshing(false);
-        if (page === pages) {
+        if (pageNumber === pages) {
           setFineshed(true);
         }
       } catch (error) {
@@ -101,6 +102,7 @@ function CheckinIndex() {
 
 CheckinIndex.navigationOptions = {
   tabBarLabel: 'Check-ins',
+  // eslint-disable-next-line react/prop-types
   tabBarIcon: ({ tintColor }) => (
     <Icon name="local-pizza" size={20} color={tintColor} />
   ),

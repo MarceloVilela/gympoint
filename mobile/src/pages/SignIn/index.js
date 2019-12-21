@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
+// eslint-disable-next-line import/no-unresolved
 import logo from '~/assets/logo.png';
 
 import { signInRequest } from '~/store/modules/auth/actions';

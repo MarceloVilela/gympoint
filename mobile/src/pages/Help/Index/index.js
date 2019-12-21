@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
+import PropTypes from 'prop-types';
 
 import api from '~/services/api';
 import Button from '~/components/Button';
@@ -19,17 +20,17 @@ function HelpIndex({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(
-    async (page = 1) => {
+    async (pageNumber = 1) => {
       if (fineshed) return;
       setLoading(true);
       try {
-        const url = `/students/${id}/help-orders?page=${page}`;
+        const url = `/students/${id}/help-orders?page=${pageNumber}`;
         const response = await api.get(url);
         const { docs, pages } = response.data;
-        setData(data => data.concat(docs));
-        setPage(page);
+        setData(list => list.concat(docs));
+        setPage(pageNumber);
         setRefreshing(false);
-        if (page === pages) {
+        if (pageNumber === pages) {
           setFineshed(true);
         }
       } catch (error) {
@@ -81,5 +82,16 @@ function HelpIndex({ navigation }) {
     </Container>
   );
 }
+
+HelpIndex.propTypes = {
+  data: PropTypes.shape({
+    created_at: PropTypes.oneOfType(PropTypes.object, PropTypes.number),
+    answer: PropTypes.string,
+    question: PropTypes.string,
+  }).isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default withNavigationFocus(HelpIndex);
