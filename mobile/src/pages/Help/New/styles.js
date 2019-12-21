@@ -1,21 +1,6 @@
-import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 
-import Input from '~/components/Input';
-import Button from '~/components/Button';
-
-export const Container = styled.SafeAreaView`
-  flex: 1;
-  padding: 0 30px 0 30px;
-  background-color: #f3f3f3;
-`;
-
-export const Form = styled.ScrollView.attrs({
-  showsVerticalScrollIndicator: false,
-  contentContainerStyle: { paddingTop: 80, paddingBottom: 30 },
-})`
-  align-self: stretch;
-`;
+export const Form = styled.View``;
 
 export const FormInput = styled.TextInput.attrs(props => ({
   placeholdertextcolor: '#999',
@@ -26,10 +11,7 @@ export const FormInput = styled.TextInput.attrs(props => ({
   color: #999;
   font-size: 16px;
   background-color: #fff;
-`;
-
-export const SubmitButton = styled(Button)`
-  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const SignLink = styled.TouchableOpacity`

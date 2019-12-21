@@ -15,3 +15,12 @@ export const Text = styled.Text`
   font-weight: bold;
   font-size: 16px;
 `;
+
+export const TouchableOpacity = styled.TouchableOpacity`
+  /*background: black;*/
+  width: 100%;
+  height: 100%;
+
+  align-items: center;
+  justify-content: center;
+`;

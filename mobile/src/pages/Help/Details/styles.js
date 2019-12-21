@@ -1,14 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.ScrollView.attrs({
-  showsVerticalScrollIndicator: false,
-  backgroundColor: '#f3f3f3',
-})`
-  align-self: stretch;
-`;
-
 export const MessageList = styled.View`
-  margin: 80px 30px 30px 30px;
   padding: 20px;
   border: 1px solid #eee;
   border-radius: 4px;

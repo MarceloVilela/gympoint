@@ -1,23 +1,27 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
 
 import api from '~/services/api';
-import Help from '~/components/Help';
 import Button from '~/components/Button';
-import { Container, List } from './styles';
+import Container from '~/components/Container';
+import Help from '~/components/Help';
+import { List } from './styles';
 
 function HelpIndex({ navigation }) {
   const { id } = useSelector(state => state.auth);
+
+  // list help-order
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [fineshed, setFineshed] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(
     async (page = 1) => {
       if (fineshed) return;
+      setLoading(true);
       try {
         const url = `/students/${id}/help-orders?page=${page}`;
         const response = await api.get(url);
@@ -31,6 +35,7 @@ function HelpIndex({ navigation }) {
       } catch (error) {
         alert(error);
       }
+      setLoading(false);
     },
     [fineshed, id]
   );
@@ -61,8 +66,9 @@ function HelpIndex({ navigation }) {
   const handleOnPress = () => navigation.navigate('HelpNew');
 
   return (
-    <Container>
+    <Container loading={loading}>
       <Button onPress={handleOnPress}>Novo pedido de auxílio</Button>
+
       <List
         data={data}
         keyExtractor={item => String(item.id)}

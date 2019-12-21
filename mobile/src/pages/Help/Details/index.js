@@ -2,8 +2,9 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import Container from '~/components/Container';
 import {
-  Container,
+  Scroll,
   MessageList,
   ContainerMessage,
   Header,
@@ -16,7 +17,7 @@ export default function HelpDetails({ navigation, isFocused }) {
   const helpOrder = navigation.getParam('helpOrderData');
 
   return (
-    <Container>
+    <Container scrollEnabled>
       <MessageList>
         <ContainerMessage>
           <Header>

@@ -3,14 +3,18 @@ import { useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import Button from '~/components/Button';
+import Container from '~/components/Container';
 import api from '~/services/api';
-import { Container, Form, FormInput, SubmitButton } from './styles';
+import { Form, FormInput } from './styles';
 
 export default function SignIn({ navigation }) {
   const { id } = useSelector(state => state.auth);
   const [question, setQuestion] = useState('');
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
-  async function handleSubmit() {
+  const handleSubmit = async () => {
+    setLoadingSubmit(true);
     try {
       const response = await api.post(`/students/${id}/help-orders`, {
         question,
@@ -22,10 +26,11 @@ export default function SignIn({ navigation }) {
     } catch (error) {
       alert(error);
     }
-  }
+    setLoadingSubmit(false);
+  };
 
   return (
-    <Container>
+    <Container scrollEnabled>
       <Form>
         <FormInput
           autoCorrect={false}
@@ -38,9 +43,9 @@ export default function SignIn({ navigation }) {
           onChangeText={setQuestion}
         />
 
-        <SubmitButton loading={false} onPress={handleSubmit}>
+        <Button onPress={handleSubmit} loading={loadingSubmit}>
           Enviar pedido
-        </SubmitButton>
+        </Button>
       </Form>
     </Container>
   );

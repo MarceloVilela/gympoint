@@ -6,7 +6,8 @@ import { withNavigationFocus } from 'react-navigation';
 import api from '~/services/api';
 import Checkin from '~/components/Checkin';
 import Button from '~/components/Button';
-import { Container, List } from './styles';
+import Container from '~/components/Container';
+import { List } from './styles';
 
 function CheckinIndex() {
   const { id } = useSelector(state => state.auth);
@@ -15,12 +16,14 @@ function CheckinIndex() {
   // list checkins
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [fineshed, setFineshed] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(
     async (page = 1) => {
       if (fineshed) return;
+      setLoading(true);
       try {
         const url = `/students/${id}/checkins?page=${page}`;
         const response = await api.get(url);
@@ -37,6 +40,7 @@ function CheckinIndex() {
       } catch (error) {
         alert(error);
       }
+      setLoading(false);
     },
     [fineshed, id]
   );
@@ -77,7 +81,7 @@ function CheckinIndex() {
   };
 
   return (
-    <Container>
+    <Container loading={loading}>
       <Button loading={loadingNew} onPress={handleOnPress}>
         Novo check-in
       </Button>
