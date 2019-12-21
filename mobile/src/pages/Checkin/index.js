@@ -10,6 +10,9 @@ import { Container, List } from './styles';
 
 function CheckinIndex() {
   const { id } = useSelector(state => state.auth);
+  const [loadingNew, setLoadingNew] = useState(false);
+
+  // list checkins
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [fineshed, setFineshed] = useState(false);
@@ -61,9 +64,23 @@ function CheckinIndex() {
     load();
   };
 
+  const handleOnPress = async () => {
+    try {
+      setLoadingNew(true);
+      const url = `/students/${id}/checkins`;
+      await api.post(url);
+      refreshList();
+    } catch (error) {
+      alert(error);
+    }
+    setLoadingNew(false);
+  };
+
   return (
     <Container>
-      <Button>Novo check-in</Button>
+      <Button loading={loadingNew} onPress={handleOnPress}>
+        Novo check-in
+      </Button>
 
       <List
         data={data}

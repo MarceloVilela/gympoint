@@ -58,15 +58,11 @@ function HelpIndex({ navigation }) {
     load();
   };
 
+  const handleOnPress = () => navigation.navigate('HelpNew');
+
   return (
     <Container>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('HelpNew');
-        }}
-      >
-        <Button>Novo pedido de auxílio{data.length}</Button>
-      </TouchableOpacity>
+      <Button onPress={handleOnPress}>Novo pedido de auxílio</Button>
       <List
         data={data}
         keyExtractor={item => String(item.id)}
