@@ -17,6 +17,22 @@ import HelpIndex from './pages/Help/Index';
 import HelpDetails from './pages/Help/Details';
 import HelpNew from './pages/Help/New';
 
+const headerOptions = {
+  headerLayoutPreset: 'center',
+  defaultNavigationOptions: {
+    headerTransparent: true,
+    headerTintColor: '#FFF',
+    headerLeftContainerStyle: {
+      marginLeft: 20,
+    },
+    //
+    headerTitle: <Image source={require('~/assets/logo-horizontal.png')} />,
+    headerStyle: {
+      backgroundColor: '#FFF',
+    },
+  },
+};
+
 export default (isSigned = false) =>
   createAppContainer(
     createSwitchNavigator(
@@ -26,7 +42,21 @@ export default (isSigned = false) =>
         }),
         App: createBottomTabNavigator(
           {
-            Checkin,
+            Checkin: {
+              screen: createStackNavigator(
+                {
+                  Checkin,
+                },
+                { ...headerOptions }
+              ),
+              navigationOptions: {
+                tabBarLabel: 'Check-ins',
+                tabBarIcon: ({ tintColor }) => (
+                  <Icon name="local-pizza" size={20} color={tintColor} />
+                ),
+              },
+            },
+
             Help: {
               screen: createStackNavigator(
                 {
@@ -34,39 +64,18 @@ export default (isSigned = false) =>
                   HelpDetails,
                   HelpNew,
                 },
-                {
-                  headerLayoutPreset: 'center',
-                  defaultNavigationOptions: {
-                    headerTransparent: true,
-                    headerTintColor: '#FFF',
-                    headerLeftContainerStyle: {
-                      marginLeft: 20,
-                    },
-                    //
-                    headerTitle: (
-                      <Image source={require('~/assets/logo-horizontal.png')} />
-                    ),
-                    headerStyle: {
-                      backgroundColor: '#FFF',
-                    },
-                  },
-                }
+                { ...headerOptions }
               ),
               navigationOptions: {
-                // tabBarVisible: false,
                 tabBarLabel: 'Pedir ajuda',
-                // tabBarIcon: (
-                //  <Icon name="add-circle-outline" size={20} color="#ccc" />
-                // ),
                 tabBarIcon: ({ tintColor }) => (
                   <Icon name="live-help" size={20} color={tintColor} />
                 ),
               },
             },
-            // Profile,
           },
           {
-            initialRouteName: 'Checkin',
+            initialRouteName: 'Help',
             resetOnBlur: true,
             tabBarOptions: {
               keyboardHidesTabBar: true,
