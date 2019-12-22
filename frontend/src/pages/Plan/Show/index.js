@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MdAdd } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -12,30 +12,30 @@ export default function Profile() {
   const [page, setPage] = useState(1);
   const [pageTotal, setPageTotal] = useState(1);
 
-  async function loadPlans() {
+  const formatPlan = plan => ({
+    ...plan,
+    durationDesc:
+      plan.duration === 1 ? `${plan.duration} mês` : `${plan.duration} meses`,
+  });
+
+  const loadPlans = useCallback(async () => {
     try {
       const {
         data: { docs, pages },
       } = await api.get(`plans?page=${page}`);
+
       setPageTotal(pages);
 
-      const plansFormatted = docs.map(plan => ({
-        ...plan,
-        durationDesc:
-          plan.duration === 1
-            ? `${plan.duration} mês`
-            : `${plan.duration} meses`,
-      }));
-
+      const plansFormatted = docs.map(plan => formatPlan(plan));
       setPlans(plansFormatted);
     } catch (error) {
       toast.error('Erro ao listar planos');
     }
-  }
+  }, [page]);
 
   useEffect(() => {
     loadPlans();
-  }, [page]);
+  }, [page, loadPlans]);
 
   const handleDelete = async id => {
     if (window.confirm('Tem certeza que deseja apagar plano?')) {

@@ -30,7 +30,9 @@ export default function RegistrationForm({ title, initialData, handleSubmit }) {
 
   const promiseOptions = async inputValue => {
     try {
-      const {data: {docs}} = await api.get(`students?q=${inputValue}&page=1`);
+      const {
+        data: { docs },
+      } = await api.get(`students?q=${inputValue}&page=1`);
       const options = docs.map(item => ({
         value: item.id,
         label: `${item.name} - ${item.email}`,
@@ -56,10 +58,10 @@ export default function RegistrationForm({ title, initialData, handleSubmit }) {
   }, []);
 
   useEffect(() => {
-    const _planSelected = planList.filter(
+    const planFiltered = planList.filter(
       item => item.id === initialData.plan
     )[0];
-    setPlanSelected(_planSelected);
+    setPlanSelected(planFiltered);
   }, [initialData.plan, planList]);
 
   if ((!planList.length || !initialData.plan) && title.includes('Edição')) {

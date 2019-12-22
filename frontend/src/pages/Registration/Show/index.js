@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MdAdd, MdCheckCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -13,7 +13,7 @@ export default function RegistrationShow() {
   const [page, setPage] = useState(1);
   const [pageTotal, setPageTotal] = useState(1);
 
-  async function loadRegistrations() {
+  const loadRegistrations = useCallback(async () => {
     try {
       const {
         data: { docs, pages },
@@ -31,11 +31,11 @@ export default function RegistrationShow() {
     } catch (error) {
       toast.error('Erro ao listar matrículas');
     }
-  }
+  }, [page]);
 
   useEffect(() => {
     loadRegistrations();
-  }, [page]);
+  }, [page, loadRegistrations]);
 
   const handleDelete = async id => {
     if (window.confirm('Tem certeza que deseja apagar matrícula?')) {

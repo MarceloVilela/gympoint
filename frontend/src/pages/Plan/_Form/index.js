@@ -9,14 +9,14 @@ export default function FormPlan({ title, initialData, handleSubmit }) {
   const [price, setPrice] = useState('');
 
   useEffect(() => {
-    const _priceTotal =
+    const priceTotalInitial =
       'price' in initialData && 'duration' in initialData
         ? initialData.price * initialData.duration
         : '';
 
     setPrice(initialData.price);
     setDuration(initialData.duration);
-    setPriceTotal(_priceTotal);
+    setPriceTotal(priceTotalInitial);
   }, [initialData]);
 
   return (

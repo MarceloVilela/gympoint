@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import api from '../../../services/api';
 import Pagination from '../../../components/Pagination';
@@ -14,17 +14,18 @@ export default function HelpShow() {
   const [currentHelp, setCurrentHelp] = useState({});
   const [openModal, setOpenModal] = useState(false);
 
-  async function loadHelps() {
+  const loadHelps = useCallback(async () => {
     const {
       data: { docs, pages },
     } = await api.get(`help-orders?page=${page}`);
+
     setPageTotal(pages);
     setHelps(docs);
-  }
+  }, [page]);
 
   useEffect(() => {
     loadHelps();
-  }, [page]);
+  }, [page, loadHelps]);
 
   const handleAnswer = help => {
     setCurrentHelp(help);
