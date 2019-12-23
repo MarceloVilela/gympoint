@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
 import Pagination from '../../../components/Pagination';
-import { Container } from '../../_layouts/default/styles';
+import Container from '../../../components/Container';
+import Fieldset from '../../../components/FieldGroupList';
 import Modal from '../../../components/Modal';
 import HelpUpdate from '../Update';
 
@@ -10,17 +12,23 @@ export default function HelpShow() {
   const [helps, setHelps] = useState([]);
   const [page, setPage] = useState(1);
   const [pageTotal, setPageTotal] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const [currentHelp, setCurrentHelp] = useState({});
   const [openModal, setOpenModal] = useState(false);
 
   const loadHelps = useCallback(async () => {
-    const {
-      data: { docs, pages },
-    } = await api.get(`help-orders?page=${page}`);
-
-    setPageTotal(pages);
-    setHelps(docs);
+    setLoading(true);
+    try {
+      const {
+        data: { docs, pages },
+      } = await api.get(`help-orders?page=${page}`);
+      setPageTotal(pages);
+      setHelps(docs);
+    } catch (error) {
+      toast.error('Erro ao listar matrículas');
+    }
+    setLoading(false);
   }, [page]);
 
   useEffect(() => {
@@ -37,11 +45,8 @@ export default function HelpShow() {
   };
 
   return (
-    <Container>
-      <p>{JSON.stringify(openModal)}</p>
-      <header>
-        <h1>Pedidos de auxílio</h1>
-      </header>
+    <Container loading={loading}>
+      <Fieldset title="Pedidos de auxílio" />
 
       <ul>
         <li>

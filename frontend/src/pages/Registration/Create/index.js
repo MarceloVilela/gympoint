@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import FormRegistration from '../_Form';
 import api from '../../../services/api';
-import { Container } from '../../_layouts/default/styles';
+import Container from '../../../components/Container';
 
 export default function RegistrationUpdate() {
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async ({ plan_id, start_date, student_id }) => {
+    setLoading(true);
     try {
       await api.post(`registrations`, {
         plan_id,
@@ -17,6 +20,7 @@ export default function RegistrationUpdate() {
     } catch (error) {
       toast.error('Erro ao cadastrar matrícula');
     }
+    setLoading(false);
   };
 
   return (
@@ -25,6 +29,7 @@ export default function RegistrationUpdate() {
         title="Cadastro de matrícula"
         initialData={{}}
         handleSubmit={handleSubmit}
+        loadingSubmit={loading}
       />
     </Container>
   );

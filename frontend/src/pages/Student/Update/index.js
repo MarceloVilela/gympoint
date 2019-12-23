@@ -4,29 +4,34 @@ import { format, parseISO } from 'date-fns';
 
 import FormStudent from '../_Form';
 import api from '../../../services/api';
-import { Container } from '../../_layouts/default/styles';
+import Container from '../../../components/Container';
 
 export default function StudentUpdate({ match }) {
   const [student, setStudent] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   useEffect(() => {
     async function loadStudent() {
+      setLoading(true);
       try {
         const response = await api.get(`students/${match.params.id}`);
-        const student = {
+        const docs = {
           ...response.data,
           birth: format(parseISO(response.data.birth), 'yyyy-MM-dd'),
         };
-        setStudent(student);
+        setStudent(docs);
       } catch (error) {
         toast.error('Erro ao listar aluno');
       }
+      setLoading(false);
     }
 
     loadStudent();
   }, [match]);
 
   const handleSubmit = async ({ name, email, birth, weight, height }) => {
+    setLoadingSubmit(true);
     try {
       await api.put(`students/${match.params.id}`, {
         name,
@@ -39,14 +44,16 @@ export default function StudentUpdate({ match }) {
     } catch (error) {
       toast.error('Erro ao editar aluno');
     }
+    setLoadingSubmit(false);
   };
 
   return (
-    <Container>
+    <Container loading={loading}>
       <FormStudent
         title="Edição de aluno"
         initialData={student}
         handleSubmit={handleSubmit}
+        loadingSubmit={loadingSubmit}
       />
     </Container>
   );

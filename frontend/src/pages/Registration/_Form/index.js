@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { MdChevronLeft, MdDone } from 'react-icons/md';
 
 import { Form, Input } from '@rocketseat/unform';
 
 import { addMonths, format } from 'date-fns';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 // import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 // import AsyncSelect from '../../../components/ReactSelectAsync';
 import Select from '../../../components/ReactSelect';
+import Fieldset from '../../../components/FieldGroupForm';
 import api from '../../../services/api';
 
-export default function RegistrationForm({ title, initialData, handleSubmit }) {
+export default function RegistrationForm({
+  title,
+  initialData,
+  handleSubmit,
+  loadingSubmit,
+}) {
   const [planList, setPlanList] = useState([]);
 
   const [studentId, setStudentId] = useState('');
@@ -94,19 +98,7 @@ export default function RegistrationForm({ title, initialData, handleSubmit }) {
 
   return (
     <Form initialData={initialData} onSubmit={handleSubmit}>
-      <header>
-        <h1>{title}</h1>
-        <Link to="/registration">
-          <button type="button" className="back">
-            <MdChevronLeft style={{ marginRight: '10px' }} />
-            VOLTAR
-          </button>
-        </Link>
-        <button type="submit">
-          <MdDone style={{ marginRight: '10px' }} />
-          SALVAR
-        </button>
-      </header>
+      <Fieldset title={title} back="/registration" loading={loadingSubmit} />
 
       <div>
         <section>

@@ -4,15 +4,18 @@ import { format, parseISO } from 'date-fns';
 
 import FormRegistration from '../_Form';
 import api from '../../../services/api';
-import { Container } from '../../_layouts/default/styles';
+import Container from '../../../components/Container';
 
 export default function RegistrationUpdate({ match }) {
   const [registration, setRegistration] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   async function loadRegistration(id) {
+    setLoading(true);
     try {
       const response = await api.get(`registrations/${id}`);
-      const _registration = {
+      const docs = {
         plan: response.data.plan.id,
         start_date: format(parseISO(response.data.start_date), 'yyyy-MM-dd'),
         end_date: format(parseISO(response.data.end_date), 'yyyy-MM-dd'),
@@ -20,11 +23,12 @@ export default function RegistrationUpdate({ match }) {
         student_id: response.data.student.id,
         student_title: response.data.student.name,
       };
-      console.log(_registration);
-      setRegistration(_registration);
+      console.log(docs);
+      setRegistration(docs);
     } catch (error) {
       toast.error('Erro ao listar matrícula');
     }
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -32,6 +36,7 @@ export default function RegistrationUpdate({ match }) {
   }, [match.params.id]);
 
   const handleSubmit = async ({ student_id, plan, start_date }) => {
+    setLoadingSubmit(true);
     try {
       console.log(student_id, plan, start_date);
       await api.put(`registrations/${match.params.id}`, {
@@ -43,14 +48,16 @@ export default function RegistrationUpdate({ match }) {
     } catch (error) {
       toast.error('Erro ao editar matrícula');
     }
+    setLoadingSubmit(false);
   };
 
   return (
-    <Container>
+    <Container loading={loading}>
       <FormRegistration
         title="Edição de matrícula"
         initialData={registration}
         handleSubmit={handleSubmit}
+        loadingSubmit={loadingSubmit}
       />
     </Container>
   );

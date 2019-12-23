@@ -33,6 +33,7 @@ export default function HelpUpdate({ help, reset, cbAnswer }) {
           type="text"
           id="answer"
           placeholder="Informe a resposta"
+          required
         />
 
         <button type="submit">Responder aluno</button>

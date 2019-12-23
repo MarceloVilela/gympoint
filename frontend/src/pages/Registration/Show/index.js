@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MdAdd, MdCheckCircle } from 'react-icons/md';
+import { MdCheckCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
 import { textualDate } from '../../../services/date';
 import Pagination from '../../../components/Pagination';
-import { Container } from '../../_layouts/default/styles';
+import Container from '../../../components/Container';
+import Fieldset from '../../../components/FieldGroupList';
 
 export default function RegistrationShow() {
   const [registrations, setRegistrations] = useState([]);
   const [page, setPage] = useState(1);
   const [pageTotal, setPageTotal] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const loadRegistrations = useCallback(async () => {
+    setLoading(true);
     try {
       const {
         data: { docs, pages },
@@ -31,6 +34,7 @@ export default function RegistrationShow() {
     } catch (error) {
       toast.error('Erro ao listar matrículas');
     }
+    setLoading(false);
   }, [page]);
 
   useEffect(() => {
@@ -39,6 +43,7 @@ export default function RegistrationShow() {
 
   const handleDelete = async id => {
     if (window.confirm('Tem certeza que deseja apagar matrícula?')) {
+      setLoading(true);
       try {
         await api.delete(`registrations/${id}`);
         toast.success('Matrícula apagada com sucesso');
@@ -46,20 +51,13 @@ export default function RegistrationShow() {
       } catch (error) {
         toast.error('Erro ao apagar matrícula');
       }
+      setLoading(false);
     }
   };
 
   return (
-    <Container>
-      <header>
-        <h1>Gerenciando matrículas</h1>
-        <Link to="registration.new">
-          <button type="button">
-            <MdAdd style={{ marginRight: '10px' }} />
-            CADASTRAR
-          </button>
-        </Link>
-      </header>
+    <Container loading={loading}>
+      <Fieldset title="Gerenciando matrículas" location="/registration.new" />
 
       <ul>
         <li>

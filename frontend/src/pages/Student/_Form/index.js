@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { MdChevronLeft, MdDone } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import { differenceInCalendarYears, parseISO } from 'date-fns';
-import { Link } from 'react-router-dom';
 
-export default function StudentForm({ title, initialData, handleSubmit }) {
+import Fieldset from '../../../components/FieldGroupForm';
+
+export default function StudentForm({
+  title,
+  initialData,
+  handleSubmit,
+  loadingSubmit,
+}) {
   const [age, setAge] = useState('');
 
   const handleAge = birth => {
@@ -17,19 +22,7 @@ export default function StudentForm({ title, initialData, handleSubmit }) {
 
   return (
     <Form initialData={initialData} onSubmit={handleSubmit}>
-      <header>
-        <h1>{title}</h1>
-        <Link to="/student">
-          <button type="button" className="back">
-            <MdChevronLeft style={{ marginRight: '10px' }} />
-            VOLTAR
-          </button>
-        </Link>
-        <button type="submit">
-          <MdDone style={{ marginRight: '10px' }} />
-          SALVAR
-        </button>
-      </header>
+      <Fieldset title={title} back="/student" loading={loadingSubmit} />
 
       <div>
         <section>

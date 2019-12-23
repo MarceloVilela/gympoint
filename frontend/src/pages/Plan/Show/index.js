@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MdAdd } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
 import Pagination from '../../../components/Pagination';
-import { Container } from '../../_layouts/default/styles';
+import Container from '../../../components/Container';
+import Fieldset from '../../../components/FieldGroupList';
 
 export default function Profile() {
   const [plans, setPlans] = useState([]);
   const [page, setPage] = useState(1);
   const [pageTotal, setPageTotal] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const formatPlan = plan => ({
     ...plan,
@@ -19,6 +20,7 @@ export default function Profile() {
   });
 
   const loadPlans = useCallback(async () => {
+    setLoading(true);
     try {
       const {
         data: { docs, pages },
@@ -31,6 +33,7 @@ export default function Profile() {
     } catch (error) {
       toast.error('Erro ao listar planos');
     }
+    setLoading(false);
   }, [page]);
 
   useEffect(() => {
@@ -39,6 +42,7 @@ export default function Profile() {
 
   const handleDelete = async id => {
     if (window.confirm('Tem certeza que deseja apagar plano?')) {
+      setLoading(true);
       try {
         await api.delete(`plans/${id}`);
         toast.success('Plano apagado com sucesso');
@@ -46,20 +50,13 @@ export default function Profile() {
       } catch (error) {
         toast.error('Erro ao apagar plano');
       }
+      setLoading(false);
     }
   };
 
   return (
-    <Container>
-      <header>
-        <h1>Gerenciando planos</h1>
-        <Link to="plan.new">
-          <button type="button">
-            <MdAdd style={{ marginRight: '10px' }} />
-            CADASTRAR
-          </button>
-        </Link>
-      </header>
+    <Container loading={loading}>
+      <Fieldset title="Gerenciando planos" location="/plan.new" />
 
       <ul>
         <li>

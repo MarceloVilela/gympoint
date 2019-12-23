@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { MdChevronLeft, MdDone } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
-import { Link } from 'react-router-dom';
 
-export default function FormPlan({ title, initialData, handleSubmit }) {
+import Fieldset from '../../../components/FieldGroupForm';
+
+export default function FormPlan({
+  title,
+  initialData,
+  handleSubmit,
+  loadingSubmit,
+}) {
   const [priceTotal, setPriceTotal] = useState('');
   const [duration, setDuration] = useState('');
   const [price, setPrice] = useState('');
@@ -21,19 +26,7 @@ export default function FormPlan({ title, initialData, handleSubmit }) {
 
   return (
     <Form initialData={initialData} onSubmit={handleSubmit}>
-      <header>
-        <h1>{title}</h1>
-        <Link to="/plan">
-          <button type="button" className="back">
-            <MdChevronLeft style={{ marginRight: '10px' }} />
-            VOLTAR
-          </button>
-        </Link>
-        <button type="submit">
-          <MdDone style={{ marginRight: '10px' }} />
-          SALVAR
-        </button>
-      </header>
+      <Fieldset title={title} back="/plan" loading={loadingSubmit} />
 
       <div>
         <section>
