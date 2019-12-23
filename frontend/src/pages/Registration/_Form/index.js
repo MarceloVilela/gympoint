@@ -125,7 +125,7 @@ export default function RegistrationForm({ title, initialData, handleSubmit }) {
         </section>
       </div>
 
-      <div>
+      <div className="break-row">
         <section>
           <label htmlFor="plan">PLANO ({initialData.plan})</label>
           <Select

@@ -9,19 +9,41 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
   max-width: 100%;
   /*max-width: 315px;*/
-  padding: 0 30px 0 30px;
+  padding: 0 30px 30px 30px;
   text-align: center;
   margin: 0 auto;
+
+  @media screen and (max-width: 1024px) {
+    .break-row {
+      /*border: 1px solid black;*/
+      flex-wrap: wrap;
+
+      & > * {
+        flex-basis: 100%;
+        margin-left: 0;
+      }
+    }
+  }
 
   header {
     display: flex;
     align-items: baseline;
     margin: 50px 0 30px 0;
+    flex-wrap: wrap;
+
+    header > * {
+      flex-basis: 100%;
+      padding-bottom: 20px;
+    }
 
     h1 {
       flex: 1;
       text-align: left;
       align-self: center;
+    }
+
+    a + button {
+      margin-left: 10px;
     }
 
     button {
@@ -130,6 +152,27 @@ export const Container = styled.div`
       }
     }
 
+    li:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    @media screen and (max-width: 1024px) {
+      li {
+        /*border: 1px solid black;*/
+        flex-wrap: wrap;
+
+        div {
+          flex-basis: 100%;
+          margin-left: 0;
+        }
+      }
+
+      li div:nth-of-type(1) {
+          text-align: center;
+        }
+      }
+    }
+
     /*
     button {
       margin: 5px 0 0;
@@ -149,7 +192,7 @@ export const Container = styled.div`
 
     a {
       color: #fff;
-      margin-top: 15px;
+      /*margin-top: 15px;*/
       font-size: 16px;
       opacity: 0.8;
 
@@ -165,18 +208,24 @@ export const Container = styled.div`
     padding: 10px 20px;
     margin: 50px 0;
 
+    section {
+      margin-bottom: 30px;
+
+      &+section {
+        margin-left: 30px;
+      }
+    }
+
     & > div {
       display: flex;
-      margin-bottom: 30px;
+      /*margin-bottom: 30px;*/
+      flex-wrap: wrap;
 
       & > section {
         flex: 1;
+        /*flex-basis: 100%;*/
         display: flex;
         flex-direction: column;
-
-        & + section {
-          margin-left: 30px;
-        }
 
         & > label {
           text-align: left;
