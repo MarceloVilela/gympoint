@@ -42,6 +42,7 @@ export default function RegistrationShow() {
   }, [page, loadRegistrations]);
 
   const handleDelete = async id => {
+    // eslint-disable-next-line no-alert
     if (window.confirm('Tem certeza que deseja apagar matrícula?')) {
       setLoading(true);
       try {

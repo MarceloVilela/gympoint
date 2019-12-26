@@ -41,6 +41,7 @@ export default function Profile() {
   }, [page, loadPlans]);
 
   const handleDelete = async id => {
+    // eslint-disable-next-line no-alert
     if (window.confirm('Tem certeza que deseja apagar plano?')) {
       setLoading(true);
       try {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
 import { Form, Input } from '@rocketseat/unform';
-
 import { addMonths, format } from 'date-fns';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
+
 // import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 // import AsyncSelect from '../../../components/ReactSelectAsync';
@@ -102,67 +102,77 @@ export default function RegistrationForm({
 
       <div>
         <section>
-          <label htmlFor="student_id">ALUNO</label>
-          {/* <AsyncSelect name="student_id" loadOptions={promiseOptions} /> */}
-          <AsyncSelect
-            name="student_selected"
-            cacheOptions
-            defaultOptions
-            loadOptions={promiseOptions}
-            placeholder="Selecionar aluno"
-            onChange={selected => setStudentId(selected.value)}
-            defaultValue={defaultValueStudent}
-          />
-          <Input name="student_id" type="hidden" readOnly value={studentId} />
+          <label htmlFor="student_id">
+            ALUNO{' '}
+            {/* <AsyncSelect name="student_id" loadOptions={promiseOptions} /> */}
+            <AsyncSelect
+              name="student_selected"
+              cacheOptions
+              defaultOptions
+              loadOptions={promiseOptions}
+              placeholder="Selecionar aluno"
+              onChange={selected => setStudentId(selected.value)}
+              defaultValue={defaultValueStudent}
+            />
+            <Input name="student_id" type="hidden" readOnly value={studentId} />
+          </label>
         </section>
       </div>
 
       <div className="break-row">
         <section>
-          <label htmlFor="plan">PLANO ({initialData.plan})</label>
-          <Select
-            name="plan_id"
-            defaultId={initialData.plan}
-            options={planList}
-            onChange={e => {
-              handlePlanSelected(e);
-            }}
-            placeholder="Selecionar plano"
-          />
+          <label htmlFor="plan">
+            PLANO ({initialData.plan})
+            <Select
+              name="plan_id"
+              defaultId={initialData.plan}
+              options={planList}
+              onChange={e => {
+                handlePlanSelected(e);
+              }}
+              placeholder="Selecionar plano"
+            />
+          </label>
         </section>
 
         <section>
-          <label htmlFor="start_date">DATA DE INÍCIO</label>
-          <Input
-            name="start_date"
-            type="date"
-            id="start_date"
-            onChange={e => {
-              handleEndDate(e.target.value);
-            }}
-          />
+          <label htmlFor="start_date">
+            DATA DE INÍCIO
+            <Input
+              name="start_date"
+              type="date"
+              id="start_date"
+              onChange={e => {
+                handleEndDate(e.target.value);
+              }}
+            />
+          </label>
         </section>
 
         <section>
-          <label htmlFor="end_date">DATA DE TÉRMINO</label>
-          <input
-            // name="end_date"
-            type="date"
-            id="end_date"
-            readOnly
-            value={end_date}
-          />
+          <label htmlFor="end_date">
+            DATA DE TÉRMINO
+            <input
+              // name="end_date"
+              type="date"
+              id="end_date"
+              readOnly
+              value={end_date}
+            />
+          </label>
         </section>
 
         <section>
-          <label htmlFor="price_total">VALOR FINAL</label>
-          <Input
-            name="price_total"
-            type="text"
-            id="price"
-            readOnly
-            value={planSelected ? planSelected.price_total : ''}
-          />
+          <label htmlFor="price_total">
+            VALOR FINAL
+            <Input
+              name="price_total"
+              type="text"
+              id="price"
+              readOnly
+              value={planSelected ? planSelected.price_total : ''}
+            />
+          </label>
         </section>
       </div>
 
@@ -174,3 +184,21 @@ export default function RegistrationForm({
     </Form>
   );
 }
+
+RegistrationForm.propTypes = {
+  title: PropTypes.string.isRequired,
+  initialData: PropTypes.shape({
+    plan: PropTypes.number,
+    start_date: PropTypes.string,
+    end_date: PropTypes.string,
+    price: PropTypes.number,
+    student_id: PropTypes.number,
+    student_title: PropTypes.string,
+  }),
+  handleSubmit: PropTypes.func.isRequired,
+  loadingSubmit: PropTypes.bool.isRequired,
+};
+
+RegistrationForm.defaultProps = {
+  initialData: {},
+};

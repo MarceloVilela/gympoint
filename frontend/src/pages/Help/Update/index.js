@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { Form, Input } from '@rocketseat/unform';
+import PropTypes from 'prop-types';
 
 import api from '../../../services/api';
 import { Container } from './styles';
@@ -24,20 +25,29 @@ export default function HelpUpdate({ help, reset, cbAnswer }) {
       <p>{help.question}</p>
 
       <Form initialData={{}} onSubmit={handleSubmit}>
-        <label>
+        <label htmlFor="answer">
           <strong>SUA RESPOSTA</strong>
+          <Input
+            multiline
+            name="answer"
+            type="text"
+            id="answer"
+            placeholder="Informe a resposta"
+            required
+          />
         </label>
-        <Input
-          multiline
-          name="answer"
-          type="text"
-          id="answer"
-          placeholder="Informe a resposta"
-          required
-        />
 
         <button type="submit">Responder aluno</button>
       </Form>
     </Container>
   );
 }
+
+HelpUpdate.propTypes = {
+  help: PropTypes.shape({
+    id: PropTypes.number,
+    question: PropTypes.string,
+  }).isRequired,
+  reset: PropTypes.func.isRequired,
+  cbAnswer: PropTypes.func.isRequired,
+};

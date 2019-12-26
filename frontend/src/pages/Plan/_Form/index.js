@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input } from '@rocketseat/unform';
+import PropTypes from 'prop-types';
 
 import Fieldset from '../../../components/FieldGroupForm';
 
-export default function FormPlan({
+export default function PlanForm({
   title,
   initialData,
   handleSubmit,
@@ -30,50 +31,72 @@ export default function FormPlan({
 
       <div>
         <section>
-          <label htmlFor="title">TÍTULO DO PLANO</label>
-          <Input name="title" type="text" id="title" />
+          <label htmlFor="title">
+            TÍTULO DO PLANO <Input name="title" type="text" id="title" />
+          </label>
         </section>
       </div>
 
       <div className="break-row">
         <section>
-          <label htmlFor="duration">DURAÇÃO (em meses)</label>
-          <Input
-            name="duration"
-            type="text"
-            id="duration"
-            onChange={e => {
-              setDuration(e.target.value);
-              setPriceTotal(price * e.target.value);
-            }}
-          />
+          <label htmlFor="duration">
+            DURAÇÃO (em meses){' '}
+            <Input
+              name="duration"
+              type="text"
+              id="duration"
+              onChange={e => {
+                setDuration(e.target.value);
+                setPriceTotal(price * e.target.value);
+              }}
+            />
+          </label>
         </section>
 
         <section>
-          <label htmlFor="price">PREÇO MENSAL</label>
-          <Input
-            name="price"
-            type="text"
-            id="price"
-            onChange={e => {
-              setPrice(e.target.value);
-              setPriceTotal(e.target.value * duration);
-            }}
-          />
+          <label htmlFor="price">
+            PREÇO MENSAL{' '}
+            <Input
+              name="price"
+              type="text"
+              id="price"
+              onChange={e => {
+                setPrice(e.target.value);
+                setPriceTotal(e.target.value * duration);
+              }}
+            />
+          </label>
         </section>
 
         <section>
-          <label htmlFor="price_total">PREÇO TOTAL</label>
-          <input
-            name="price_total"
-            id="price_total"
-            type="text"
-            readOnly
-            value={priceTotal}
-          />
+          <label htmlFor="price_total">
+            PREÇO TOTAL{' '}
+            <input
+              name="price_total"
+              id="price_total"
+              type="text"
+              readOnly
+              value={priceTotal}
+            />
+          </label>
         </section>
       </div>
       <pre>{JSON.stringify({ price, duration })}</pre>
     </Form>
   );
 }
+
+PlanForm.propTypes = {
+  title: PropTypes.string.isRequired,
+  initialData: PropTypes.shape({
+    title: PropTypes.string,
+    duration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+  handleSubmit: PropTypes.func.isRequired,
+  loadingSubmit: PropTypes.bool.isRequired,
+};
+
+PlanForm.defaultProps = {
+  initialData: {},
+};

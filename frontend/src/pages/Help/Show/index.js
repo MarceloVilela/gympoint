@@ -58,7 +58,13 @@ export default function HelpShow() {
           <li key={help.id}>
             <div>{help.student.name}</div>
             <div>
-              <span onClick={() => handleAnswer(help)}>responder</span>
+              <button
+                type="button"
+                className="info"
+                onClick={() => handleAnswer(help)}
+              >
+                responder
+              </button>
             </div>
           </li>
         ))}

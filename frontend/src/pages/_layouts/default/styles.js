@@ -21,21 +21,29 @@ export const Wrapper = styled.div`
       background: ${darken(0.03, '#f64c75')};
     }
 
-    &.warning{
+    &.warning, &.info {
       width: inherit;
       height: inherit;
       margin: 0;
-      background: #fff;
       font-weight: inherit;
-      color: #f64c75;
       border: 0;
       border-radius: 4px;
       font-size: 16px;
       transition: background 0.2s;
     }
 
-    &.warning:hover {
+    &.warning:hover, &.info:hover {
       background: #fff;
+    }
+
+    &.warning {
+      background: #fff;
+      color: #f64c75;
+    }
+
+    &.info {
+      background: #fff;
+      color: #0000ff;
     }
   }
 
@@ -158,28 +166,29 @@ export const Wrapper = styled.div`
           text-align: left;
         }
 
-        & > input,
-        & > select,
-        & > textarea,
-        & > label {
+        input,
+        select,
+        textarea,
+        label {
           font-size: 15px;
         }
 
-        & > input,
-        & > select,
-        & > textarea {
+        input,
+        select,
+        textarea {
           border: 2px solid #ccc;
           border-radius: 6px;
           color: #666;
+          width: 100%;
         }
 
-        & > input,
-        & > select {
+        input,
+        select {
           height: 34px;
         }
 
-        & > input[readOnly],
-        & > select[readOnly] {
+        input[readOnly],
+        select[readOnly] {
           background-color: #ddd;
         }
       }

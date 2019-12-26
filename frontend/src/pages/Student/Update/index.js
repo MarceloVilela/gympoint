@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
+import PropTypes from 'prop-types';
 
 import FormStudent from '../_Form';
 import api from '../../../services/api';
@@ -58,3 +59,11 @@ export default function StudentUpdate({ match }) {
     </Container>
   );
 }
+
+StudentUpdate.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+};
