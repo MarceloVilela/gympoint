@@ -4,9 +4,9 @@ import indicator from '~/assets/load.gif';
 
 import { Wrap, WrapLoading, Image } from './styles';
 
-export default function Container({ children, loading, ...rest }) {
+export default function Container({ children, loading }) {
   return (
-    <Wrap {...rest}>
+    <Wrap>
       <>{children}</>
       {loading && (
         <WrapLoading>

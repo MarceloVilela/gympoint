@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Modal from 'react-modal';
+import PropTypes from 'prop-types';
 
 const customStyles = {
   content: {
@@ -15,13 +16,13 @@ const customStyles = {
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root');
 
-export default function App({ open, reset, children }) {
+export default function MyModal({ open, reset, children }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleModalIsOpen = useCallback(
-    open => {
-      setModalIsOpen(open);
-      if (!open) {
+    isOpen => {
+      setModalIsOpen(isOpen);
+      if (!isOpen) {
         reset();
       }
     },
@@ -42,19 +43,13 @@ export default function App({ open, reset, children }) {
         contentLabel="Example Modal"
       >
         {children}
-        {/*
-          <h2 ref={subtitle => (this.subtitle = subtitle)}>Hello</h2>
-          <button onClick={this.closeModal}>close</button>
-          <div>I am a modal</div>
-          <form>
-            <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
-          </form>
-          */}
       </Modal>
     </div>
   );
 }
+
+MyModal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  reset: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
+};

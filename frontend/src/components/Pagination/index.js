@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Wrap } from './styles';
 
 export default function Pagination({ current, total, setPage }) {
@@ -22,3 +24,9 @@ export default function Pagination({ current, total, setPage }) {
     </Wrap>
   );
 }
+
+Pagination.propTypes = {
+  current: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  setPage: PropTypes.func.isRequired,
+};

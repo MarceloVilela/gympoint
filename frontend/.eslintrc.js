@@ -31,7 +31,16 @@ module.exports = {
     ],
     'import/prefer-default-export': 'off',
     'no-param-reassign': 'off',
-    'no-console': ["error", {allow: ["tron"]}]
+    'no-console': ["error", {allow: ["tron"]}],
+    "jsx-a11y/label-has-associated-control": [ 2, {
+      "labelComponents": ["label"],
+      "labelAttributes": ["htmlFor"],
+      "controlComponents": ["Input"],
+      "assert": "both",
+      "depth": 3,
+    }],
+    //"camelcase": ["error", {ignoreDestructuring: true}]
+    "camelcase": ["off", {}]
   },
   settings: {
     "import/resolver": {
