@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input } from '@rocketseat/unform';
+import InputMask from 'react-input-mask';
 import { differenceInCalendarYears, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
 
@@ -12,6 +13,7 @@ export default function StudentForm({
   loadingSubmit,
 }) {
   const [age, setAge] = useState('');
+  const [weightMask, setWeightMask] = useState('');
 
   const handleAge = birth => {
     if (birth) {
@@ -66,14 +68,24 @@ export default function StudentForm({
         <section>
           <label htmlFor="weight">
             PESO (em kg)
-            <Input name="weight" type="text" id="weight" />
+            <InputMask
+              mask={weightMask.charAt(2) !== '.' ? '99?.9' : '99?9'}
+              formatChars={{ 9: '[0-9]', '?': '[0-9.]' }}
+              onChange={e => setWeightMask(e.target.value)}
+              value={weightMask}
+              maskChar={null}
+            >
+              {() => <Input name="weight" type="text" id="weight" required />}
+            </InputMask>
           </label>
         </section>
 
         <section>
           <label htmlFor="height">
             ALTURA
-            <Input name="height" type="text" id="height" />
+            <InputMask mask="9.99" maskChar={null}>
+              {() => <Input name="height" type="text" id="height" required />}
+            </InputMask>
           </label>
         </section>
       </div>
