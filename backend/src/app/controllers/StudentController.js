@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
 import Student from '../models/Student';
+import Registration from '../models/Registration';
 
 class StudentController {
   async store(req, res) {
@@ -40,6 +41,13 @@ class StudentController {
       paginate: 10,
       order: [['id', 'ASC']],
       where,
+      include: [
+        {
+          model: Registration,
+          as: 'registration',
+          attributes: ['id', 'plan_id'],
+        },
+      ],
     };
 
     const { docs, pages, total } = await Student.paginate(options);
