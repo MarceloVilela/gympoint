@@ -25,8 +25,8 @@ export default function RegistrationForm({
   const [planList, setPlanList] = useState([]);
 
   // endDate automatically calculated based on the startDate
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
 
   const end_date =
     !endDate && initialData.end_date ? initialData.end_date : endDate;
@@ -75,6 +75,10 @@ export default function RegistrationForm({
     setPlanSelected(planFiltered);
   }, [initialData.plan, planList]);
 
+  useEffect(() => {
+    setStartDate(initialData.start_date);
+  }, [initialData.start_date, startDate]);
+
   if ((!planList.length || !initialData.plan) && title.includes('Edição')) {
     return '';
   }
@@ -97,7 +101,7 @@ export default function RegistrationForm({
   };
 
   const handlePlanSelected = ({ id }) => {
-    // console.log('handlePlanSelected', id);
+    console.log('handlePlanSelected', id);
     const [data] = planList.filter(item => item.id === id);
     setPlanSelected(data);
     if (startDate) {
