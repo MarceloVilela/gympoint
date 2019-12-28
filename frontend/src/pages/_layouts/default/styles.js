@@ -187,6 +187,12 @@ export const Wrapper = styled.div`
           height: 34px;
         }
 
+        div[class$="container"], div[class$="control"], div[class$="control"]>div {
+          height: 34px;
+          min-height: 34px;
+          align-content: center;
+        }
+
         input[readOnly],
         select[readOnly] {
           background-color: #ddd;

@@ -18,7 +18,7 @@ export default function RegistrationForm({
   handleSubmit,
   loadingSubmit,
 }) {
-  const [studentId, setStudentId] = useState('');
+  const [studentId, setStudentId] = useState(initialData.student_id);
   const [planSelected, setPlanSelected] = useState('');
 
   // Plans must be fetched from the API as soon as the page loads and must have no filter.
@@ -109,8 +109,12 @@ export default function RegistrationForm({
     // console.log('handleStudent', selectedData);
     setStudentId(selectedData.value);
     if (selectedData.registration_id) {
+      toast.info(
+        `Redirecionando para a matrícula do aluno ${selectedData.label}.`
+      );
       history.push(`/registration.edit/${selectedData.registration_id}`);
     } else {
+      toast.info(`Aluno ${selectedData.label} sem matrícula ativa.`);
       history.push(`/registration.new`);
     }
     // handlePlanSelected({ id: selectedData.plan_id });

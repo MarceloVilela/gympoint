@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import FormRegistration from '../_Form';
 import api from '../../../services/api';
+import history from '../../../services/history';
 import Container from '../../../components/Container';
 
 export default function RegistrationUpdate({ match }) {
@@ -37,16 +38,19 @@ export default function RegistrationUpdate({ match }) {
     loadRegistration(match.params.id);
   }, [match.params.id]);
 
-  const handleSubmit = async ({ student_id, plan, start_date }) => {
+  const handleSubmit = async ({ student_id, plan_id, start_date }) => {
     setLoadingSubmit(true);
     try {
-      await api.put(`registrations/${match.params.id}`, {
-        plan_id: plan,
+      const {
+        data: { id },
+      } = await api.put(`registrations/${match.params.id}`, {
+        plan_id,
         start_date,
         student_id,
       });
 
       toast.success('Matrícula editada com sucesso');
+      history.push(`/registration.edit/${id}`);
     } catch (error) {
       toast.error('Erro ao editar matrícula');
     }
