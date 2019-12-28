@@ -38,11 +38,11 @@ class RegistrationController {
     const { student_id } = req.params;
     const { page = 1 } = req.query;
 
-    const orders = await HelpOrder.findAll({
+    const options = await {
       where: { student_id },
-      order: ['created_at'],
-      limit: 20,
-      offset: (page - 1) * 20,
+      page,
+      paginate: 10,
+      order: [['id', 'DESC']],
       include: [
         {
           model: User,
@@ -50,9 +50,11 @@ class RegistrationController {
           attributes: ['id', 'name', 'email'],
         },
       ],
-    });
+    };
 
-    return res.json(orders);
+    const { docs, pages, total } = await HelpOrder.paginate(options);
+
+    return res.json({ docs, pages, total });
   }
 }
 

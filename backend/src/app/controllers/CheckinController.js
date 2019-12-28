@@ -57,18 +57,20 @@ class CheckinController {
     }
 
     const { student_id } = req.params;
-    const { page = 1 } = req.query;
+    const { page } = req.query;
 
-    const registrations = await Checkin.findAll({
+    const options = {
       where: {
         student_id,
       },
-      order: ['created_at'],
-      limit: 20,
-      offset: (page - 1) * 20,
-    });
+      page,
+      paginate: 10,
+      order: [['id', 'DESC']],
+    };
 
-    return res.json(registrations);
+    const { docs, pages, total } = await Checkin.paginate(options);
+
+    return res.json({ docs, pages, total });
   }
 }
 
