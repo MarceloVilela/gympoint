@@ -10,6 +10,7 @@ import AsyncSelect from 'react-select/async';
 import Select from '../../../components/ReactSelect';
 import Fieldset from '../../../components/FieldGroupForm';
 import api from '../../../services/api';
+import history from '../../../services/history';
 
 export default function RegistrationForm({
   title,
@@ -17,10 +18,13 @@ export default function RegistrationForm({
   handleSubmit,
   loadingSubmit,
 }) {
-  const [planList, setPlanList] = useState([]);
-
   const [studentId, setStudentId] = useState('');
   const [planSelected, setPlanSelected] = useState('');
+
+  // Plans must be fetched from the API as soon as the page loads and must have no filter.
+  const [planList, setPlanList] = useState([]);
+
+  // endDate automatically calculated based on the startDate
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -32,7 +36,7 @@ export default function RegistrationForm({
     : null;
   console.log('default???', JSON.stringify(defaultValueStudent), initialData);
 
-  const promiseOptions = async inputValue => {
+  const loadStudentByName = async inputValue => {
     try {
       const {
         data: { docs },
@@ -40,10 +44,13 @@ export default function RegistrationForm({
       const options = docs.map(item => ({
         value: item.id,
         label: `${item.name} - ${item.email}`,
+        registration_id:
+          item.registration === null ? null : item.registration.id,
+        // plan_id: item.registration.plan_id || null,
       }));
       return options;
     } catch (error) {
-      toast.error('Erro ao listar alunos');
+      toast.error(`Erro ao listar alunos`);
     }
   };
 
@@ -89,11 +96,24 @@ export default function RegistrationForm({
     }
   };
 
-  const handlePlanSelected = data => {
+  const handlePlanSelected = ({ id }) => {
+    // console.log('handlePlanSelected', id);
+    const [data] = planList.filter(item => item.id === id);
     setPlanSelected(data);
     if (startDate) {
       handleEndDate(startDate, data.duration);
     }
+  };
+
+  const handleStudent = selectedData => {
+    // console.log('handleStudent', selectedData);
+    setStudentId(selectedData.value);
+    if (selectedData.registration_id) {
+      history.push(`/registration.edit/${selectedData.registration_id}`);
+    } else {
+      history.push(`/registration.new`);
+    }
+    // handlePlanSelected({ id: selectedData.plan_id });
   };
 
   return (
@@ -109,9 +129,9 @@ export default function RegistrationForm({
               name="student_selected"
               cacheOptions
               defaultOptions
-              loadOptions={promiseOptions}
+              loadOptions={loadStudentByName}
               placeholder="Selecionar aluno"
-              onChange={selected => setStudentId(selected.value)}
+              onChange={selected => handleStudent(selected)}
               defaultValue={defaultValueStudent}
             />
             <Input name="student_id" type="hidden" readOnly value={studentId} />

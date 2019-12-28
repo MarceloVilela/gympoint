@@ -57,7 +57,7 @@ export default function RegistrationUpdate({ match }) {
     <Container loading={loading}>
       <FormRegistration
         title="Edição de matrícula"
-        initialData={registration}
+        initialData={loading ? {} : registration}
         handleSubmit={handleSubmit}
         loadingSubmit={loadingSubmit}
       />
