@@ -102,9 +102,8 @@ class RegistrationController {
       where: { canceled_at: null },
       page,
       paginate: 10,
-      order: [['id', 'ASC']],
+      order: [['student_id', 'ASC']],
       attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
-      order: ['created_at'],
       include: [
         {
           model: Student,
@@ -217,12 +216,12 @@ class RegistrationController {
     await registrationFound.save();
 
     // Create new registration
-    const { idNew } = await Registration.create({
+    const { id: newId } = await Registration.create({
       ...req.body, end_date, price,
     });
 
     return res.json({
-      idNew, student_id, plan_id, start_date, end_date, price,
+      id: newId, student_id, plan_id, start_date, end_date, price,
     });
   }
 
