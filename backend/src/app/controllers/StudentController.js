@@ -46,6 +46,7 @@ class StudentController {
           model: Registration,
           as: 'registration',
           attributes: ['id', 'plan_id'],
+          where: { canceled_at: null },
         },
       ],
     };
