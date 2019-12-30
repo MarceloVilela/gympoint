@@ -17,25 +17,24 @@ export default function RegistrationForm({
   initialData,
   handleSubmit,
   loadingSubmit,
+  awaitsDefaultSettings,
 }) {
-  const [studentId, setStudentId] = useState(initialData.student_id);
-  const [planSelected, setPlanSelected] = useState('');
+  const [stateStudentId, setStateStudentId] = useState('');
+  const [stateStudentDefault, setStateStudentDefault] = useState('');
 
   // Plans must be fetched from the API as soon as the page loads and must have no filter.
-  const [planList, setPlanList] = useState([]);
+  const [statePlanList, setStatePlanList] = useState([]);
+  const [statePlanSelected, setStatePlanSelected] = useState('');
 
-  // endDate automatically calculated based on the startDate
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  // stateEndDate automatically calculated based on the stateStartDate
+  const [stateStartDate, setStateStartDate] = useState();
+  const [stateEndDate, setStateEndDate] = useState();
 
-  const end_date =
-    !endDate && initialData.end_date ? initialData.end_date : endDate;
+  /*
+   * Requests
+   */
 
-  const defaultValueStudent = initialData.student_id
-    ? { value: initialData.student_id, label: initialData.student_title }
-    : null;
-  console.log('default???', JSON.stringify(defaultValueStudent), initialData);
-
+  // Fetch for the student by name using the async method of the React Select library.
   const loadStudentByName = async inputValue => {
     try {
       const {
@@ -46,7 +45,6 @@ export default function RegistrationForm({
         label: `${item.name} - ${item.email}`,
         registration_id:
           item.registration === null ? null : item.registration.id,
-        // plan_id: item.registration.plan_id || null,
       }));
       return options;
     } catch (error) {
@@ -54,13 +52,14 @@ export default function RegistrationForm({
     }
   };
 
+  // Fetch plan
   useEffect(() => {
     async function loadPlans() {
       try {
         const {
           data: { docs },
         } = await api.get(`plans?page=${1}`);
-        setPlanList(docs);
+        setStatePlanList(docs);
       } catch (error) {
         toast.error('Erro ao listar plano');
       }
@@ -68,50 +67,57 @@ export default function RegistrationForm({
     loadPlans();
   }, []);
 
-  useEffect(() => {
-    const planFiltered = planList.filter(
-      item => item.id === initialData.plan
-    )[0];
-    setPlanSelected(planFiltered);
-  }, [initialData.plan, planList]);
+  /*
+   * Defines states based on initial data
+   */
 
   useEffect(() => {
-    setStartDate(initialData.start_date);
-  }, [initialData.start_date, startDate]);
+    const { student, plan, start_date, end_date } = initialData;
+    const valStudent = student ? student.id : '';
+    setStateStudentId(valStudent);
+    //
+    const valStudentDefault = student
+      ? { value: initialData.student.id, label: initialData.student.name }
+      : null;
+    setStateStudentDefault(valStudentDefault);
+    //
+    const id = plan ? plan.id : '';
+    const [planFiltered] = statePlanList.filter(item => item.id === id);
+    setStatePlanSelected(planFiltered);
+    //
+    setStateStartDate(start_date);
+    setStateEndDate(end_date);
+  }, [initialData, statePlanList]);
 
-  if ((!planList.length || !initialData.plan) && title.includes('Edição')) {
-    return '';
-  }
+  /*
+   * Handle field actions
+   */
 
-  const handleEndDate = (startDate, duration = null) => {
-    console.log('handleEndDate');
+  const handlestateEndDate = (valstateStartDate, duration = null) => {
     try {
       const added = addMonths(
-        new Date(startDate),
-        duration || planSelected.duration
+        new Date(valstateStartDate),
+        duration || statePlanSelected.duration
       );
       const formatted = format(added, 'yyyy-MM-dd');
-      setEndDate(formatted);
-      setStartDate(startDate);
+      setStateEndDate(formatted);
+      setStateStartDate(valstateStartDate);
     } catch (error) {
-      toast.error('Erro ao calcular data de término');
-      setStartDate('');
-      setEndDate('');
+      setStateStartDate('');
+      setStateEndDate('');
     }
   };
 
-  const handlePlanSelected = ({ id }) => {
-    console.log('handlePlanSelected', id);
-    const [data] = planList.filter(item => item.id === id);
-    setPlanSelected(data);
-    if (startDate) {
-      handleEndDate(startDate, data.duration);
+  const handlestatePlanSelected = ({ id }) => {
+    const [data] = statePlanList.filter(item => item.id === id);
+    setStatePlanSelected(data);
+    if (stateStartDate) {
+      handlestateEndDate(stateStartDate, data.duration);
     }
   };
 
   const handleStudent = selectedData => {
-    // console.log('handleStudent', selectedData);
-    setStudentId(selectedData.value);
+    setStateStudentId(selectedData.value);
     if (selectedData.registration_id) {
       toast.info(
         `Redirecionando para a matrícula do aluno ${selectedData.label}.`
@@ -121,7 +127,6 @@ export default function RegistrationForm({
       toast.info(`Aluno ${selectedData.label} sem matrícula ativa.`);
       history.push(`/registration.new`);
     }
-    // handlePlanSelected({ id: selectedData.plan_id });
   };
 
   return (
@@ -131,18 +136,24 @@ export default function RegistrationForm({
       <div>
         <section>
           <label htmlFor="student_id">
-            ALUNO{' '}
-            {/* <AsyncSelect name="student_id" loadOptions={promiseOptions} /> */}
-            <AsyncSelect
-              name="student_selected"
-              cacheOptions
-              defaultOptions
-              loadOptions={loadStudentByName}
-              placeholder="Selecionar aluno"
-              onChange={selected => handleStudent(selected)}
-              defaultValue={defaultValueStudent}
+            ALUNO
+            {(stateStudentDefault || !awaitsDefaultSettings) && (
+              <AsyncSelect
+                name="student_selected"
+                cacheOptions
+                defaultOptions
+                loadOptions={loadStudentByName}
+                placeholder="Selecionar aluno"
+                onChange={selected => handleStudent(selected)}
+                defaultValue={stateStudentDefault}
+              />
+            )}
+            <Input
+              name="student_id"
+              type="hidden"
+              readOnly
+              value={stateStudentId}
             />
-            <Input name="student_id" type="hidden" readOnly value={studentId} />
           </label>
         </section>
       </div>
@@ -150,16 +161,18 @@ export default function RegistrationForm({
       <div className="break-row">
         <section>
           <label htmlFor="plan">
-            PLANO ({initialData.plan})
-            <Select
-              name="plan_id"
-              defaultId={initialData.plan}
-              options={planList}
-              onChange={e => {
-                handlePlanSelected(e);
-              }}
-              placeholder="Selecionar plano"
-            />
+            PLANO
+            {(statePlanSelected || !awaitsDefaultSettings) && (
+              <Select
+                name="plan_id"
+                defaultId={statePlanSelected ? statePlanSelected.id : ''}
+                options={statePlanList}
+                onChange={e => {
+                  handlestatePlanSelected(e);
+                }}
+                placeholder="Selecionar plano"
+              />
+            )}
           </label>
         </section>
 
@@ -171,7 +184,7 @@ export default function RegistrationForm({
               type="date"
               id="start_date"
               onChange={e => {
-                handleEndDate(e.target.value);
+                handlestateEndDate(e.target.value);
               }}
             />
           </label>
@@ -181,11 +194,10 @@ export default function RegistrationForm({
           <label htmlFor="end_date">
             DATA DE TÉRMINO
             <input
-              // name="end_date"
               type="date"
               id="end_date"
               readOnly
-              value={end_date}
+              defaultValue={stateEndDate}
             />
           </label>
         </section>
@@ -198,17 +210,11 @@ export default function RegistrationForm({
               type="text"
               id="price"
               readOnly
-              value={planSelected ? planSelected.price_total : ''}
+              value={statePlanSelected ? statePlanSelected.price_total : ''}
             />
           </label>
         </section>
       </div>
-
-      <pre>
-        {startDate}, {endDate}
-      </pre>
-      <hr />
-      <pre>SELECTED:{JSON.stringify(planSelected, null, 2)}</pre>
     </Form>
   );
 }
@@ -216,17 +222,22 @@ export default function RegistrationForm({
 RegistrationForm.propTypes = {
   title: PropTypes.string.isRequired,
   initialData: PropTypes.shape({
-    plan: PropTypes.number,
+    student: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+    plan: PropTypes.shape({
+      id: PropTypes.number,
+    }),
     start_date: PropTypes.string,
     end_date: PropTypes.string,
-    price: PropTypes.number,
-    student_id: PropTypes.number,
-    student_title: PropTypes.string,
   }),
   handleSubmit: PropTypes.func.isRequired,
   loadingSubmit: PropTypes.bool.isRequired,
+  awaitsDefaultSettings: PropTypes.bool,
 };
 
 RegistrationForm.defaultProps = {
   initialData: {},
+  awaitsDefaultSettings: false,
 };

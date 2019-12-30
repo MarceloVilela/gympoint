@@ -16,18 +16,15 @@ export default function RegistrationUpdate({ match }) {
   async function loadRegistration(id) {
     setLoading(true);
     try {
-      const response = await api.get(`registrations/${id}`);
+      const { data } = await api.get(`registrations/${id}`);
 
-      const docs = {
-        plan: response.data.plan.id,
-        start_date: format(parseISO(response.data.start_date), 'yyyy-MM-dd'),
-        end_date: format(parseISO(response.data.end_date), 'yyyy-MM-dd'),
-        price: response.data.price,
-        student_id: response.data.student.id,
-        student_title: response.data.student.name,
+      const dataFormated = {
+        ...data,
+        start_date: format(parseISO(data.start_date), 'yyyy-MM-dd'),
+        end_date: format(parseISO(data.end_date), 'yyyy-MM-dd'),
       };
 
-      setRegistration(docs);
+      setRegistration(dataFormated);
     } catch (error) {
       toast.error('Erro ao listar matrícula');
     }
@@ -64,6 +61,7 @@ export default function RegistrationUpdate({ match }) {
         initialData={loading ? {} : registration}
         handleSubmit={handleSubmit}
         loadingSubmit={loadingSubmit}
+        awaitsDefaultSettings
       />
     </Container>
   );

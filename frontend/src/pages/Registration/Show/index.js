@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { MdCheckCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import PropTypes from 'prop-types';
 
 import api from '../../../services/api';
 import { textualDate } from '../../../services/date';
