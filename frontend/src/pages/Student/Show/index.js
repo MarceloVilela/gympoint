@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
-import { Container, FieldGroupList, Pagination } from '~/components';
+import { Container, FieldGroupList, List, Pagination } from '~/components';
 
 export default function StudentShow() {
   const [students, setStudents] = useState([]);
@@ -53,7 +53,7 @@ export default function StudentShow() {
         inputPlaceholder="Buscar aluno"
       />
 
-      <ul>
+      <List>
         <li>
           <div>
             <strong>NOME</strong>
@@ -88,7 +88,7 @@ export default function StudentShow() {
             </div>
           </li>
         ))}
-      </ul>
+      </List>
       <Pagination current={page} total={pageTotal} setPage={setPage} />
     </Container>
   );

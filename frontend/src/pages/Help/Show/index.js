@@ -2,7 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
-import { Container, FieldGroupList, Modal, Pagination } from '~/components';
+import {
+  Container,
+  FieldGroupList,
+  List,
+  Modal,
+  Pagination,
+} from '~/components';
 import HelpUpdate from '../Update';
 
 export default function HelpShow() {
@@ -45,7 +51,7 @@ export default function HelpShow() {
     <Container loading={loading}>
       <FieldGroupList title="Pedidos de auxílio" />
 
-      <ul>
+      <List>
         <li>
           <div>
             <strong>ALUNO</strong>
@@ -65,7 +71,7 @@ export default function HelpShow() {
             </div>
           </li>
         ))}
-      </ul>
+      </List>
       <Pagination current={page} total={pageTotal} setPage={setPage} />
 
       <Modal open={openModal} reset={handlePropagatesClose}>

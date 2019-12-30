@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
-import { Container, FieldGroupList, Pagination } from '~/components';
+import { Container, List, FieldGroupList, Pagination } from '~/components';
 
 export default function Profile() {
   const [plans, setPlans] = useState([]);
@@ -57,7 +57,7 @@ export default function Profile() {
     <Container loading={loading}>
       <FieldGroupList title="Gerenciando planos" location="/plan.new" />
 
-      <ul>
+      <List>
         <li>
           <div>
             <strong>TÍTULO</strong>
@@ -92,7 +92,7 @@ export default function Profile() {
             </div>
           </li>
         ))}
-      </ul>
+      </List>
       <Pagination current={page} total={pageTotal} setPage={setPage} />
     </Container>
   );

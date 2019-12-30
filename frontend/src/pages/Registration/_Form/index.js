@@ -5,7 +5,7 @@ import { addMonths, format } from 'date-fns';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
-import { FieldGroupForm as Fieldset, Select } from '~/components';
+import { FieldGroupForm as Fieldset, FormLayout, Select } from '~/components';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -128,92 +128,94 @@ export default function RegistrationForm({
   };
 
   return (
-    <Form initialData={initialData} onSubmit={handleSubmit}>
-      <Fieldset title={title} back="/registration" loading={loadingSubmit} />
+    <FormLayout>
+      <Form initialData={initialData} onSubmit={handleSubmit}>
+        <Fieldset title={title} back="/registration" loading={loadingSubmit} />
 
-      <div>
-        <section>
-          <label htmlFor="student_id">
-            ALUNO
-            {(stateStudentDefault || !awaitsDefaultSettings) && (
-              <AsyncSelect
-                name="student_selected"
-                cacheOptions
-                defaultOptions
-                loadOptions={loadStudentByName}
-                placeholder="Selecionar aluno"
-                onChange={selected => handleStudent(selected)}
-                defaultValue={stateStudentDefault}
+        <div>
+          <section>
+            <label htmlFor="student_id">
+              ALUNO
+              {(stateStudentDefault || !awaitsDefaultSettings) && (
+                <AsyncSelect
+                  name="student_selected"
+                  cacheOptions
+                  defaultOptions
+                  loadOptions={loadStudentByName}
+                  placeholder="Selecionar aluno"
+                  onChange={selected => handleStudent(selected)}
+                  defaultValue={stateStudentDefault}
+                />
+              )}
+              <Input
+                name="student_id"
+                type="hidden"
+                readOnly
+                value={stateStudentId}
               />
-            )}
-            <Input
-              name="student_id"
-              type="hidden"
-              readOnly
-              value={stateStudentId}
-            />
-          </label>
-        </section>
-      </div>
+            </label>
+          </section>
+        </div>
 
-      <div className="break-row">
-        <section>
-          <label htmlFor="plan">
-            PLANO
-            {(statePlanSelected || !awaitsDefaultSettings) && (
-              <Select
-                name="plan_id"
-                defaultId={statePlanSelected ? statePlanSelected.id : ''}
-                options={statePlanList}
+        <div className="break-row">
+          <section>
+            <label htmlFor="plan">
+              PLANO
+              {(statePlanSelected || !awaitsDefaultSettings) && (
+                <Select
+                  name="plan_id"
+                  defaultId={statePlanSelected ? statePlanSelected.id : ''}
+                  options={statePlanList}
+                  onChange={e => {
+                    handlestatePlanSelected(e);
+                  }}
+                  placeholder="Selecionar plano"
+                />
+              )}
+            </label>
+          </section>
+
+          <section>
+            <label htmlFor="start_date">
+              DATA DE INÍCIO
+              <Input
+                name="start_date"
+                type="date"
+                id="start_date"
                 onChange={e => {
-                  handlestatePlanSelected(e);
+                  handlestateEndDate(e.target.value);
                 }}
-                placeholder="Selecionar plano"
               />
-            )}
-          </label>
-        </section>
+            </label>
+          </section>
 
-        <section>
-          <label htmlFor="start_date">
-            DATA DE INÍCIO
-            <Input
-              name="start_date"
-              type="date"
-              id="start_date"
-              onChange={e => {
-                handlestateEndDate(e.target.value);
-              }}
-            />
-          </label>
-        </section>
+          <section>
+            <label htmlFor="end_date">
+              DATA DE TÉRMINO
+              <input
+                type="date"
+                id="end_date"
+                readOnly
+                defaultValue={stateEndDate}
+              />
+            </label>
+          </section>
 
-        <section>
-          <label htmlFor="end_date">
-            DATA DE TÉRMINO
-            <input
-              type="date"
-              id="end_date"
-              readOnly
-              defaultValue={stateEndDate}
-            />
-          </label>
-        </section>
-
-        <section>
-          <label htmlFor="price_total">
-            VALOR FINAL
-            <Input
-              name="price_total"
-              type="text"
-              id="price"
-              readOnly
-              value={statePlanSelected ? statePlanSelected.price_total : ''}
-            />
-          </label>
-        </section>
-      </div>
-    </Form>
+          <section>
+            <label htmlFor="price_total">
+              VALOR FINAL
+              <Input
+                name="price_total"
+                type="text"
+                id="price"
+                readOnly
+                value={statePlanSelected ? statePlanSelected.price_total : ''}
+              />
+            </label>
+          </section>
+        </div>
+      </Form>
+    </FormLayout>
   );
 }
 

@@ -19,6 +19,12 @@ export const Container = styled.div`
     margin-bottom: 5px;
   }
 
+  form {
+    margin: 0;
+    min-width: inherit;
+    padding: 0;
+  }
+
   ::placeholder,
   textarea::placeholder {
     color: #999;

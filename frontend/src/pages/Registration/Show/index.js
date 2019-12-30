@@ -6,7 +6,7 @@ import { format, parseISO } from 'date-fns';
 import locale from 'date-fns/locale/pt';
 
 import api from '~/services/api';
-import { Container, FieldGroupList, Pagination } from '~/components';
+import { Container, FieldGroupList, List, Pagination } from '~/components';
 
 export default function RegistrationShow() {
   const [registrations, setRegistrations] = useState([]);
@@ -67,7 +67,7 @@ export default function RegistrationShow() {
         location="/registration.new"
       />
 
-      <ul>
+      <List>
         <li>
           <div>
             <strong>ALUNO</strong>
@@ -112,7 +112,7 @@ export default function RegistrationShow() {
             </div>
           </li>
         ))}
-      </ul>
+      </List>
       <Pagination current={page} total={pageTotal} setPage={setPage} />
     </Container>
   );
