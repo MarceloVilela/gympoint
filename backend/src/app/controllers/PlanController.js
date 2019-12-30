@@ -37,15 +37,23 @@ class PlanController {
     const { page } = req.query;
 
     const options = {
+      attributes: ['id', 'title', 'price', 'price_total', 'duration'],
       where: { canceled_at: null },
-      page,
-      paginate: 10,
       order: [['id', 'ASC']],
     };
 
-    const { docs, pages, total } = await Plan.paginate(options);
+    if (page) {
+      const { docs, pages, total } = await Plan.paginate({
+        ...options,
+        page,
+        paginate: 10,
+      });
 
-    return res.json({ docs, pages, total });
+      return res.json({ docs, pages, total });
+    }
+    const Plans = await Plan.findAll({ ...options });
+
+    return res.json({ docs: Plans, pages: 1, total: Plans.length });
   }
 
   async show(req, res) {
