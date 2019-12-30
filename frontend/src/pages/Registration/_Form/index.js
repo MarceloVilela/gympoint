@@ -58,7 +58,7 @@ export default function RegistrationForm({
       try {
         const {
           data: { docs },
-        } = await api.get(`plans?page=${1}`);
+        } = await api.get(`plans`);
         setStatePlanList(docs);
       } catch (error) {
         toast.error('Erro ao listar plano');
