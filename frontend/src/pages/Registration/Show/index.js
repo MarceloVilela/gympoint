@@ -2,12 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { MdCheckCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { format, parseISO } from 'date-fns';
+import locale from 'date-fns/locale/pt';
 
-import api from '../../../services/api';
-import { textualDate } from '../../../services/date';
-import Pagination from '../../../components/Pagination';
-import Container from '../../../components/Container';
-import Fieldset from '../../../components/FieldGroupList';
+import api from '~/services/api';
+import { Container, FieldGroupList, Pagination } from '~/components';
 
 export default function RegistrationShow() {
   const [registrations, setRegistrations] = useState([]);
@@ -17,6 +16,11 @@ export default function RegistrationShow() {
 
   const loadRegistrations = useCallback(async () => {
     setLoading(true);
+
+    const textualDate = date => {
+      return format(parseISO(date), "dd 'de' MMMM 'de' yyyy", { locale });
+    };
+
     try {
       const {
         data: { docs, pages },
@@ -58,7 +62,10 @@ export default function RegistrationShow() {
 
   return (
     <Container loading={loading}>
-      <Fieldset title="Gerenciando matrículas" location="/registration.new" />
+      <FieldGroupList
+        title="Gerenciando matrículas"
+        location="/registration.new"
+      />
 
       <ul>
         <li>

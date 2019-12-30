@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import PropTypes from 'prop-types';
 
-import Fieldset from '../../../components/FieldGroupForm';
+import { FieldGroupForm as Fieldset } from '~/components';
 
 export default function PlanForm({
   title,

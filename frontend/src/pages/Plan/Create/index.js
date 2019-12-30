@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import FormPlan from '../_Form';
-import api from '../../../services/api';
-import Container from '../../../components/Container';
+import api from '~/services/api';
+import { Container } from '~/components';
 
 export default function PlanCreate() {
   const [loading, setLoading] = useState(false);

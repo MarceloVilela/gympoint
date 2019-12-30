@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Form, Input } from '@rocketseat/unform';
 import PropTypes from 'prop-types';
 
-import api from '../../../services/api';
+import api from '~/services/api';
 import { Container } from './styles';
 
 export default function HelpUpdate({ help, reset, cbAnswer }) {

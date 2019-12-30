@@ -4,9 +4,9 @@ import { format, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import FormRegistration from '../_Form';
-import api from '../../../services/api';
-import history from '../../../services/history';
-import Container from '../../../components/Container';
+import api from '~/services/api';
+import history from '~/services/history';
+import { Container } from '~/components';
 
 export default function RegistrationUpdate({ match }) {
   const [registration, setRegistration] = useState({});

@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input } from '@rocketseat/unform';
+import AsyncSelect from 'react-select/async';
 import { addMonths, format } from 'date-fns';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
-// import Select from 'react-select';
-import AsyncSelect from 'react-select/async';
-// import AsyncSelect from '../../../components/ReactSelectAsync';
-import Select from '../../../components/ReactSelect';
-import Fieldset from '../../../components/FieldGroupForm';
-import api from '../../../services/api';
-import history from '../../../services/history';
+import { FieldGroupForm as Fieldset, Select } from '~/components';
+
+import api from '~/services/api';
+import history from '~/services/history';
 
 export default function RegistrationForm({
   title,

@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
 import FormStudent from '../_Form';
-import api from '../../../services/api';
-import Container from '../../../components/Container';
+import api from '~/services/api';
+import { Container } from '~/components';
 
 export default function PlanUpdate({ match }) {
   const [plan, setPlan] = useState({});

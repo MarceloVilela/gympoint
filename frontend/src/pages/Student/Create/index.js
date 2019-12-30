@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import FormStudent from '../_Form';
-import api from '../../../services/api';
-import Container from '../../../components/Container';
+import api from '~/services/api';
+import { Container } from '~/components';
 
 export default function StudentUpdate() {
   const [loading, setLoading] = useState(false);

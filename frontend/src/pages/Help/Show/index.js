@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 
-import api from '../../../services/api';
-import Pagination from '../../../components/Pagination';
-import Container from '../../../components/Container';
-import Fieldset from '../../../components/FieldGroupList';
-import Modal from '../../../components/Modal';
+import api from '~/services/api';
+import { Container, FieldGroupList, Modal, Pagination } from '~/components';
 import HelpUpdate from '../Update';
 
 export default function HelpShow() {
@@ -46,7 +43,7 @@ export default function HelpShow() {
 
   return (
     <Container loading={loading}>
-      <Fieldset title="Pedidos de auxílio" />
+      <FieldGroupList title="Pedidos de auxílio" />
 
       <ul>
         <li>

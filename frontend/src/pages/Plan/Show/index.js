@@ -2,10 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import api from '../../../services/api';
-import Pagination from '../../../components/Pagination';
-import Container from '../../../components/Container';
-import Fieldset from '../../../components/FieldGroupList';
+import api from '~/services/api';
+import { Container, FieldGroupList, Pagination } from '~/components';
 
 export default function Profile() {
   const [plans, setPlans] = useState([]);
@@ -57,7 +55,7 @@ export default function Profile() {
 
   return (
     <Container loading={loading}>
-      <Fieldset title="Gerenciando planos" location="/plan.new" />
+      <FieldGroupList title="Gerenciando planos" location="/plan.new" />
 
       <ul>
         <li>

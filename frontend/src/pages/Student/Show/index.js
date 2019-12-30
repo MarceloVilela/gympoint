@@ -2,10 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import api from '../../../services/api';
-import Pagination from '../../../components/Pagination';
-import Container from '../../../components/Container';
-import Fieldset from '../../../components/FieldGroupList';
+import api from '~/services/api';
+import { Container, FieldGroupList, Pagination } from '~/components';
 
 export default function StudentShow() {
   const [students, setStudents] = useState([]);
@@ -48,7 +46,7 @@ export default function StudentShow() {
 
   return (
     <Container loading={loading}>
-      <Fieldset
+      <FieldGroupList
         title="Gerenciando alunos"
         location="/student.new"
         handleChange={setQ}

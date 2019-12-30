@@ -4,8 +4,8 @@ import { format, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import FormStudent from '../_Form';
-import api from '../../../services/api';
-import Container from '../../../components/Container';
+import api from '~/services/api';
+import { Container } from '~/components';
 
 export default function StudentUpdate({ match }) {
   const [student, setStudent] = useState({});
