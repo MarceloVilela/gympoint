@@ -1,14 +1,14 @@
 import styled from 'styled-components/native';
 
-export const Wrap = styled.SafeAreaView`
+export const Wrap = styled.View`
   flex: 1;
   padding: 80px 30px 0 30px;
   padding: ${props =>
-    props.scrollEnabled ? '0px 30px 0 30px' : '80px 30px 0 30px'};
+    props.scrollEnabled ? '0px 30px 0 30px' : `120px 30px 0 30px`};
   background-color: #f3f3f3;
 `;
 
-export const WrapLoading = styled.SafeAreaView`
+export const WrapLoading = styled.View`
   display: flex;
   flex: 1;
   align-items: center;
@@ -17,7 +17,7 @@ export const WrapLoading = styled.SafeAreaView`
 
 export const Scroll = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
-  contentContainerStyle: { paddingTop: 80, paddingBottom: 30 },
+  contentContainerStyle: { paddingTop: 120, paddingBottom: 30 },
 })`
   align-self: stretch;
 `;

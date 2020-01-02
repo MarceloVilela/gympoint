@@ -12,6 +12,7 @@ export const FormInput = styled.TextInput.attrs(props => ({
   font-size: 16px;
   background-color: #fff;
   margin-bottom: 10px;
+  min-height: 100px;
 `;
 
 export const SignLink = styled.TouchableOpacity`

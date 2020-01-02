@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 
 import { Container, Text, TouchableOpacity } from './styles';
 
-export default function Button({ children, loading, onPress, ...rest }) {
+export default function Button({ children, loading, handleOnPress, ...rest }) {
   return (
     <Container {...rest}>
       {loading ? (
         <ActivityIndicator size="small" color="#FFF" />
       ) : (
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={handleOnPress}>
           <Text>{children}</Text>
         </TouchableOpacity>
       )}
@@ -21,7 +21,7 @@ export default function Button({ children, loading, onPress, ...rest }) {
 Button.propTypes = {
   children: PropTypes.string.isRequired,
   loading: PropTypes.bool,
-  onPress: PropTypes.func.isRequired,
+  handleOnPress: PropTypes.func.isRequired,
 };
 
 Button.defaultProps = {
