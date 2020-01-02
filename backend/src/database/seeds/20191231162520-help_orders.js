@@ -396,7 +396,7 @@ module.exports = {
       }
     ],
     {},
-  ),
+  ).then(async () => QueryInterface.sequelize.query(`ALTER SEQUENCE "help_orders_id_seq" RESTART WITH 40`)),
 
   down: (queryInterface, Sequelize) => {}
 };

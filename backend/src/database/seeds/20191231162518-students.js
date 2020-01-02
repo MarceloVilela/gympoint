@@ -138,7 +138,7 @@ module.exports = {
       }
     ],
     {},
-  ),
+  ).then(async () => QueryInterface.sequelize.query(`ALTER SEQUENCE "students_id_seq" RESTART WITH 13`)),
 
   down: (queryInterface, Sequelize) => {}
 };

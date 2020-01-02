@@ -13,7 +13,7 @@ module.exports = {
       },
     ],
     {},
-  ),
+  ).then(async () => QueryInterface.sequelize.query(`ALTER SEQUENCE "users_id_seq" RESTART WITH 2`)),
 
   down: () => {},
 };
