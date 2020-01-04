@@ -3,6 +3,7 @@ import { Router } from 'express';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
+import IdentifierController from './app/controllers/IdentifierController';
 import PlanController from './app/controllers/PlanController';
 import RegistrationController from './app/controllers/RegistrationController';
 import CheckinController from './app/controllers/CheckinController';
@@ -13,7 +14,12 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
-routes.post('/sessions', SessionController.store);
+/*
+ * Student features
+ */
+
+// Identify student
+routes.get('/identifiers/:id', IdentifierController.show);
 
 routes.post('/students/:student_id/checkins', CheckinController.store);
 routes.get('/students/:student_id/checkins', CheckinController.index);
@@ -21,13 +27,20 @@ routes.get('/students/:student_id/checkins', CheckinController.index);
 routes.post('/students/:student_id/help-orders', HelpQuestionController.store);
 routes.get('/students/:student_id/help-orders', HelpQuestionController.index);
 
-routes.get('/students/:id', StudentController.show);
+/*
+ * Authenticate user
+ */
+routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
 
 routes.post('/users', UserController.store);
 
+/*
+ * User features
+ */
 routes.post('/students', StudentController.store);
+routes.get('/students/:id', StudentController.show);
 routes.get('/students', StudentController.index);
 routes.put('/students/:id', StudentController.update);
 routes.delete('/students/:id', StudentController.delete);
