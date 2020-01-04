@@ -9,17 +9,13 @@ export function* signIn({ payload }) {
   try {
     const { id } = payload;
 
-    const response = yield call(api.get, `students/${id}`);
+    const response = yield call(api.get, `identifiers/${id}`);
 
     yield put(signInSuccess(response.data));
 
     // history.push('/dashboard');
   } catch (err) {
     alert(err);
-    /* Alert.alert(
-      'Falha ao buscar cadastro',
-      'Houve um erro ao entrar no sistema, verifique seu ID'
-    ); */
     yield put(signFailure());
   }
 }

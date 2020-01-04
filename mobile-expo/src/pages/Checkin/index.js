@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { withNavigationFocus } from 'react-navigation';
+import React, { useEffect, useState, useCallback } from "react";
+import { useSelector } from "react-redux";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { withNavigationFocus } from "react-navigation";
 
-import api from '~/services/api';
-import Checkin from '~/components/Checkin';
-import Button from '~/components/Button';
-import Container from '~/components/Container';
-import { List } from './styles';
+import api from "~/services/api";
+import Checkin from "~/components/Checkin";
+import Button from "~/components/Button";
+import Container from "~/components/Container";
+import { List } from "./styles";
 
 function CheckinIndex() {
   const { id } = useSelector(state => state.auth);
@@ -101,11 +101,11 @@ function CheckinIndex() {
 }
 
 CheckinIndex.navigationOptions = {
-  tabBarLabel: 'Check-ins',
+  tabBarLabel: "Check-ins",
   // eslint-disable-next-line react/prop-types
   tabBarIcon: ({ tintColor }) => (
     <Icon name="local-pizza" size={20} color={tintColor} />
-  ),
+  )
 };
 
 export default withNavigationFocus(CheckinIndex);
