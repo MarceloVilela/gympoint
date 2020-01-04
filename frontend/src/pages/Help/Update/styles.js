@@ -40,6 +40,10 @@ export const Container = styled.div`
     color: #666;
   }
 
+  textarea + span {
+    color: #f64c75;
+  }
+
   button {
     width: 100%;
     height: 44px;

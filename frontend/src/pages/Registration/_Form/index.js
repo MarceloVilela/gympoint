@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input } from '@rocketseat/unform';
+import * as Yup from 'yup';
 import AsyncSelect from 'react-select/async';
 import { addMonths, format } from 'date-fns';
 import { toast } from 'react-toastify';
@@ -15,7 +16,7 @@ export default function RegistrationForm({
   initialData,
   handleSubmit,
   loadingSubmit,
-  awaitsDefaultSettings,
+  registrationEdit,
 }) {
   const [stateStudentId, setStateStudentId] = useState('');
   const [stateStudentDefault, setStateStudentDefault] = useState('');
@@ -91,7 +92,7 @@ export default function RegistrationForm({
    * Handle field actions
    */
 
-  const handlestateEndDate = (valstateStartDate, duration = null) => {
+  const handleStateEndDate = (valstateStartDate, duration = null) => {
     try {
       const added = addMonths(
         new Date(valstateStartDate),
@@ -106,37 +107,45 @@ export default function RegistrationForm({
     }
   };
 
-  const handlestatePlanSelected = ({ id }) => {
+  const handleStatePlanSelected = ({ id }) => {
     const [data] = statePlanList.filter(item => item.id === id);
     setStatePlanSelected(data);
     if (stateStartDate) {
-      handlestateEndDate(stateStartDate, data.duration);
+      handleStateEndDate(stateStartDate, data.duration);
     }
   };
 
   const handleStudent = selectedData => {
-    setStateStudentId(selectedData.value);
     if (selectedData.registration_id) {
       toast.info(
         `Redirecionando para a matrícula do aluno ${selectedData.label}.`
       );
       history.push(`/registration.edit/${selectedData.registration_id}`);
-    } else {
+    } else if (registrationEdit) {
       toast.info(`Aluno ${selectedData.label} sem matrícula ativa.`);
       history.push(`/registration.new`);
     }
+    setStateStudentId(selectedData.value);
   };
+
+  const schema = Yup.object().shape({
+    student_id: Yup.number().required('Aluno inválido'),
+    plan_id: Yup.number().required('Plano inválido'),
+    start_date: Yup.date('Data de início inválida').required(
+      'Data de início inválida'
+    ),
+  });
 
   return (
     <FormLayout>
-      <Form initialData={initialData} onSubmit={handleSubmit}>
+      <Form initialData={initialData} onSubmit={handleSubmit} schema={schema}>
         <Fieldset title={title} back="/registration" loading={loadingSubmit} />
 
         <div>
           <section>
             <label htmlFor="student_id">
-              ALUNO
-              {(stateStudentDefault || !awaitsDefaultSettings) && (
+              ALUNO({stateStudentId})
+              {(stateStudentDefault || !registrationEdit) && (
                 <AsyncSelect
                   name="student_selected"
                   cacheOptions
@@ -161,13 +170,13 @@ export default function RegistrationForm({
           <section>
             <label htmlFor="plan">
               PLANO
-              {(statePlanSelected || !awaitsDefaultSettings) && (
+              {(statePlanSelected || !registrationEdit) && (
                 <Select
                   name="plan_id"
                   defaultId={statePlanSelected ? statePlanSelected.id : ''}
                   options={statePlanList}
                   onChange={e => {
-                    handlestatePlanSelected(e);
+                    handleStatePlanSelected(e);
                   }}
                   placeholder="Selecionar plano"
                 />
@@ -183,8 +192,9 @@ export default function RegistrationForm({
                 type="date"
                 id="start_date"
                 onChange={e => {
-                  handlestateEndDate(e.target.value);
+                  handleStateEndDate(e.target.value);
                 }}
+                required
               />
             </label>
           </section>
@@ -195,8 +205,8 @@ export default function RegistrationForm({
               <input
                 type="date"
                 id="end_date"
-                readOnly
                 defaultValue={stateEndDate}
+                readOnly
               />
             </label>
           </section>
@@ -208,8 +218,8 @@ export default function RegistrationForm({
                 name="price_total"
                 type="text"
                 id="price"
-                readOnly
                 value={statePlanSelected ? statePlanSelected.price_total : ''}
+                readOnly
               />
             </label>
           </section>
@@ -234,10 +244,10 @@ RegistrationForm.propTypes = {
   }),
   handleSubmit: PropTypes.func.isRequired,
   loadingSubmit: PropTypes.bool.isRequired,
-  awaitsDefaultSettings: PropTypes.bool,
+  registrationEdit: PropTypes.bool,
 };
 
 RegistrationForm.defaultProps = {
   initialData: {},
-  awaitsDefaultSettings: false,
+  registrationEdit: false,
 };

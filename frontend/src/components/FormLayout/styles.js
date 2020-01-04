@@ -51,6 +51,12 @@ export const Wrap = styled.div`
           height: 34px;
         }
 
+        input + span,
+        select + span,
+        textarea + span {
+          color: #f64c75;
+        }
+
         div[class$='container'],
         div[class$='control'],
         div[class$='control'] > div {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { Form, Input } from '@rocketseat/unform';
+import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 
 import api from '~/services/api';
@@ -20,13 +21,19 @@ export default function HelpUpdate({ help, reset, cbAnswer }) {
     }
   };
 
+  const schema = Yup.object().shape({
+    answer: Yup.string()
+      .min(7, 'Resposta precisa de ao menos 7 caracteres')
+      .required('Resposta inválida'),
+  });
+
   return (
     <Container>
       <strong>PERGUNTA DO ALUNO</strong>
       <p>{help.question}</p>
 
       <FormLayout>
-        <Form initialData={{}} onSubmit={handleSubmit}>
+        <Form initialData={{}} onSubmit={handleSubmit} schema={schema}>
           <label htmlFor="answer">
             <strong>SUA RESPOSTA</strong>
             <Input

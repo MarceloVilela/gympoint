@@ -61,7 +61,7 @@ export default function RegistrationUpdate({ match }) {
         initialData={loading ? {} : registration}
         handleSubmit={handleSubmit}
         loadingSubmit={loadingSubmit}
-        awaitsDefaultSettings
+        registrationEdit
       />
     </Container>
   );

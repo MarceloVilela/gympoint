@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input } from '@rocketseat/unform';
-import InputMask from 'react-input-mask';
+import * as Yup from 'yup';
 import { differenceInCalendarYears, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
 
@@ -13,7 +13,8 @@ export default function StudentForm({
   loadingSubmit,
 }) {
   const [age, setAge] = useState('');
-  const [weightMask, setWeightMask] = useState('');
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
 
   const handleAge = birth => {
     if (birth) {
@@ -21,18 +22,58 @@ export default function StudentForm({
     }
   };
 
-  useEffect(() => handleAge(initialData.birth), [initialData]);
+  const handleWeight = val => {
+    const unmasked = val.replace(/\D/g, '').slice(0, 4);
+    setWeight(
+      unmasked.length === 3
+        ? unmasked.replace(/(\d)(\d)(\d)/, '$1$2.$3')
+        : unmasked.replace(/(\d)(\d)(\d)(\d)/, '$1$2$3.$4')
+    );
+  };
+
+  const handleHeight = val => {
+    const unmasked = val.replace(/\D/g, '').slice(0, 3);
+    setHeight(unmasked.replace(/(\d)(\d)(\d)/, '$1.$2$3'));
+  };
+
+  useEffect(() => {
+    if (initialData.weight) {
+      handleAge(initialData.birth);
+      setWeight(`${initialData.weight}`);
+      setHeight(`${initialData.height}`);
+    }
+  }, [initialData]);
+
+  const schema = Yup.object().shape({
+    name: Yup.string()
+      .min(7, 'Nome precisa de ao menos 7 caracteres')
+      .required('Preencha este campo'),
+    email: Yup.string()
+      .email('Email inválido')
+      .required('Preencha este campo'),
+    birth: Yup.date('Data de nascimento inválida').required(
+      'Preencha este campo'
+    ),
+    weight: Yup.number()
+      .min(40, 'Peso precisa estar entre 40 e 150')
+      .max(150, 'Peso precisa estar entre 40 e 150')
+      .required('Preencha este campo'),
+    height: Yup.number()
+      .min(1.2, 'Altura precisa estar entre 1.20 e 2.50')
+      .max(2.5, 'Altura precisa estar entre 1.20 e 2.50')
+      .required('Preencha este campo'),
+  });
 
   return (
     <FormLayout>
-      <Form initialData={initialData} onSubmit={handleSubmit}>
+      <Form initialData={initialData} onSubmit={handleSubmit} schema={schema}>
         <Fieldset title={title} back="/student" loading={loadingSubmit} />
 
         <div>
           <section>
             <label htmlFor="name">
               NOME COMPLETO
-              <Input name="name" type="text" id="name" />
+              <Input name="name" type="text" id="name" required />
             </label>
           </section>
         </div>
@@ -41,7 +82,7 @@ export default function StudentForm({
           <section>
             <label htmlFor="email">
               ENDEREÇO DE E-MAIL
-              <Input name="email" type="text" id="email" />
+              <Input name="email" type="text" id="email" required />
             </label>
           </section>
         </div>
@@ -69,24 +110,28 @@ export default function StudentForm({
           <section>
             <label htmlFor="weight">
               PESO (em kg)
-              <InputMask
-                mask={weightMask.charAt(2) !== '.' ? '99?.9' : '99?9'}
-                formatChars={{ 9: '[0-9]', '?': '[0-9.]' }}
-                onChange={e => setWeightMask(e.target.value)}
-                value={weightMask}
-                maskChar={null}
-              >
-                {() => <Input name="weight" type="text" id="weight" required />}
-              </InputMask>
+              <Input
+                name="weight"
+                type="text"
+                id="weight"
+                required
+                value={weight || ''}
+                onChange={e => handleWeight(e.target.value)}
+              />
             </label>
           </section>
 
           <section>
             <label htmlFor="height">
               ALTURA
-              <InputMask mask="9.99" maskChar={null}>
-                {() => <Input name="height" type="text" id="height" required />}
-              </InputMask>
+              <Input
+                name="height"
+                type="text"
+                id="height"
+                required
+                value={height || ''}
+                onChange={e => handleHeight(e.target.value)}
+              />
             </label>
           </section>
         </div>
