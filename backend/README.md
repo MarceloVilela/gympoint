@@ -26,9 +26,6 @@ Para executar o projeto será necessário instalar as seguintes aplicações:
 - docker run --name postgresgympoint -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres:11
 ```
 ```
-- docker run --name mongogympoint -p 27017:27017 -d -t mongo
-```
-```
 - docker run --name redisgympoint -p 6379:6379 -d -t redis:alpine
 ```
 5. Crie um banco de dados no postgres com o nome de postgresgympoint;
