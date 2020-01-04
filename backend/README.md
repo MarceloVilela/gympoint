@@ -22,12 +22,18 @@ Para executar o projeto será necessário instalar as seguintes aplicações:
 2. Entre na pasta rodando `cd gympoint/backend`;
 3. Rode `yarn` para instalar as dependências;
 4. Execute os comandos docker
-- `docker run --name postgresgympoint -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres:11`
-- `docker run --name mongogympoint -p 27017:27017 -d -t mongo`
-- `docker run --name redisgympoint -p 6379:6379 -d -t redis:alpine`
+```
+- docker run --name postgresgympoint -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres:11
+```
+```
+- docker run --name mongogympoint -p 27017:27017 -d -t mongo
+```
+```
+- docker run --name redisgympoint -p 6379:6379 -d -t redis:alpine
+```
 5. Crie um banco de dados no postgres com o nome de postgresgympoint;
 6. Renomeie o arquivo `.env.example` para `.env`;
 7. Coloque as suas credenciais dentro do `.env`;
-8. Rode yarn sequelize `db:migrate` para executar as migrations;
-9. Rode yarn sequelize `db:seed:all` para executar os seeds;
+8. Rode `yarn sequelize db:migrate` para executar as migrations;
+9. Rode `yarn sequelize db:seed:all` para executar os seeds;
 10. Rode `yarn dev` para iniciar o servidor.
