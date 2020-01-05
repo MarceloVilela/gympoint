@@ -15,7 +15,7 @@ export function* signIn({ payload }) {
 
     // history.push('/dashboard');
   } catch (err) {
-    alert(err);
+    alert(err.response.data.error);
     yield put(signFailure());
   }
 }
