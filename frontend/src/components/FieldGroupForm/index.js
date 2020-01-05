@@ -10,16 +10,18 @@ export default function FieldGroupForm({ title, back, loading }) {
   return (
     <FieldGroup>
       <h1>{title}</h1>
-      <Link to={back}>
-        <button type="button" className="back">
-          <MdChevronLeft style={{ marginRight: '10px' }} />
-          VOLTAR
-        </button>
-      </Link>
-      <Button type="submit" loading={loading ? 'true' : 'false'}>
-        <MdDone style={{ marginRight: '10px' }} />
-        {loading ? 'SALVANDO' : 'SALVAR'}
-      </Button>
+      <div>
+        <Link to={back}>
+          <button type="button" className="back">
+            <MdChevronLeft style={{ marginRight: '10px' }} />
+            VOLTAR
+          </button>
+        </Link>
+        <Button type="submit" loading={loading ? 'true' : 'false'}>
+          <MdDone style={{ marginRight: '10px' }} />
+          {loading ? 'SALVANDO' : 'SALVAR'}
+        </Button>
+      </div>
     </FieldGroup>
   );
 }

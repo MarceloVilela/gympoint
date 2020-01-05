@@ -72,4 +72,10 @@ export const Wrap = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 1024px) {
+    form {
+      min-width: inherit;
+    }
+  }
 `;

@@ -14,10 +14,19 @@ export const Wrap = styled.div`
     border: 0;
     padding: 8px;
     width: inherit;
+    border-radius: 30px;
 
     &:disabled {
       opacity: 0.35;
       cursor: not-allowed;
+    }
+
+    span {
+      display: none;
+    }
+
+    svg {
+      font-size: 30px;
     }
   }
 `;

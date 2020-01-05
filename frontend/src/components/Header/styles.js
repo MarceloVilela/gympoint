@@ -50,6 +50,10 @@ export const Content = styled.div`
     a.chosen {
       color: #444;
     }
+
+    svg {
+      display: none;
+    }
   }
 
   aside {
@@ -59,6 +63,22 @@ export const Content = styled.div`
     p + p {
       color: #ef4d64;
       cursor: pointer;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    nav,
+    aside button {
+      span {
+        display: none;
+      }
+
+      svg {
+        display: block;
+        color: red;
+        font-size: 20px;
+        margin-top: 10px;
+      }
     }
   }
 `;

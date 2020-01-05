@@ -16,28 +16,30 @@ export default function FieldGroupForm({
     <FieldGroup>
       <h1>{title}</h1>
 
-      {location && (
-        <Link to={location}>
-          <button type="button">
-            <MdAdd style={{ marginRight: '10px' }} />
-            CADASTRAR
-          </button>
-        </Link>
-      )}
+      <div>
+        {location && (
+          <Link to={location}>
+            <button type="button">
+              <MdAdd style={{ marginRight: '10px' }} />
+              CADASTRAR
+            </button>
+          </Link>
+        )}
 
-      {inputPlaceholder && (
-        <div>
-          <MdSearch
-            style={{ left: '20px', top: '3px', position: 'relative' }}
-          />
-          <input
-            type="text"
-            name="search"
-            placeholder={inputPlaceholder}
-            onChange={e => handleInput(e.target.value)}
-          />
-        </div>
-      )}
+        {inputPlaceholder && (
+          <div>
+            <MdSearch
+              style={{ left: '20px', top: '10px', position: 'relative' }}
+            />
+            <input
+              type="text"
+              name="search"
+              placeholder={inputPlaceholder}
+              onChange={e => handleInput(e.target.value)}
+            />
+          </div>
+        )}
+      </div>
     </FieldGroup>
   );
 }

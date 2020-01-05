@@ -9,7 +9,7 @@ export const Wrap = styled.ul`
   li {
     display: flex;
     justify-content: space-between;
-    color: #999;
+    color: #666;
     font-size: 16px;
     padding: 10px 20px;
     border-bottom: 1px solid #ccc;
@@ -46,6 +46,8 @@ export const Wrap = styled.ul`
   }
 
   @media screen and (max-width: 1024px) {
+    min-width: inherit;
+
     li {
       /*border: 1px solid black;*/
       flex-wrap: wrap;

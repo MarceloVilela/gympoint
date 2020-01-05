@@ -1,14 +1,5 @@
 import styled from 'styled-components';
 
-/*
-export const Wrap = styled.SafeAreaView`
-  flex: 1;
-  padding: 80px 30px 0 30px;
-  padding: ${props =>
-    props.scrollEnabled ? '0px 30px 0 30px' : '80px 30px 0 30px'};
-  background-color: #f3f3f3;
-`;
-*/
 export const Wrap = styled.div`
   max-width: 100%;
   /*max-width: 315px;*/

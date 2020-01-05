@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 
 import { Wrap } from './styles';
 
@@ -11,7 +12,8 @@ export default function Pagination({ current, total, setPage }) {
         disabled={current < 2}
         onClick={() => setPage(current - 1)}
       >
-        Anterior
+        <MdNavigateBefore />
+        <span>Anterior</span>
       </button>
       <span>Página {current}</span>
       <button
@@ -19,7 +21,8 @@ export default function Pagination({ current, total, setPage }) {
         disabled={current === total}
         onClick={() => setPage(current + 1)}
       >
-        Próximo
+        <span>Próximo</span>
+        <MdNavigateNext />
       </button>
     </Wrap>
   );

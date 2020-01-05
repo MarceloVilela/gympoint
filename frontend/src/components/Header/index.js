@@ -1,6 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import {
+  MdPersonOutline,
+  MdEvent,
+  MdCardMembership,
+  MdHelpOutline,
+  MdExitToApp,
+} from 'react-icons/md';
 
 import { signOut } from '~/store/modules/auth/actions';
 import logo from '~/assets/logo-horizontal.svg';
@@ -30,20 +37,24 @@ export default function Header() {
                 exact={false}
                 strict={false}
               >
-                ALUNOS
+                <span>ALUNOS</span>
+                <MdPersonOutline />
               </NavLink>
               <NavLink to="/plan" activeClassName="chosen" exact={false}>
-                PLANOS
+                <span>PLANOS</span>
+                <MdEvent />
               </NavLink>
               <NavLink
                 to="/registration"
                 activeClassName="chosen"
                 exact={false}
               >
-                MATRÍCULAS
+                <span>MATRÍCULAS</span>
+                <MdCardMembership />
               </NavLink>
               <NavLink to="/help" activeClassName="chosen" exact={false}>
-                PEDIDOS DE AUXÍLIO
+                <span>PEDIDOS DE AUXÍLIO</span>
+                <MdHelpOutline />
               </NavLink>
             </section>
           </article>
@@ -52,7 +63,8 @@ export default function Header() {
             <p>{profile.name}</p>
 
             <button type="button" className="warning" onClick={handleSignOut}>
-              sair do sistema
+              <span>sair do sistema</span>
+              <MdExitToApp />
             </button>
           </aside>
         </nav>
