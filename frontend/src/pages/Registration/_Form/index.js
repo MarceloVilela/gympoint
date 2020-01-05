@@ -144,7 +144,7 @@ export default function RegistrationForm({
         <div>
           <section>
             <label htmlFor="student_id">
-              ALUNO({stateStudentId})
+              ALUNO
               {(stateStudentDefault || !registrationEdit) && (
                 <AsyncSelect
                   name="student_selected"
