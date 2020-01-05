@@ -62,7 +62,7 @@ class RegistrationController {
       ...req.body, end_date, price,
     });
 
-    const registration = await Registration.findByPk(req.body.plan_id, {
+    const registration = await Registration.findByPk(id, {
       include: [
         {
           model: Student,

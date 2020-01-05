@@ -34,3 +34,4 @@ docker run --name redisgympoint -p 6379:6379 -d -t redis:alpine
 8. Rode `yarn sequelize db:migrate` para executar as migrations;
 9. Rode `yarn sequelize db:seed:all` para executar os seeds;
 10. Rode `yarn dev` para iniciar o servidor.
+11. Rode `yarn queue` para iniciar a fila de processamentos (emails de matrícula).
