@@ -25,6 +25,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "App gerenciador de academia",
+    "githubUrl": "https://github.com/MarceloVilela/gympoint"
   }
 }
