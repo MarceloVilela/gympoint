@@ -41,6 +41,8 @@ export default function Routes() {
       />
 
       <Route path="/help" component={Help} isPrivate />
+
+      <Route component={Student} />
     </Switch>
   );
 }
