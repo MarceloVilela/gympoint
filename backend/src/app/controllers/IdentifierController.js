@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import Student from '../models/Student';
+import Registration from '../models/Registration';
 
 class IdentifierController {
   async show(req, res) {
@@ -12,13 +13,32 @@ class IdentifierController {
     }
 
     const { id } = req.params;
-    const student = await Student.findOne({ where: { id } });
+
+    const options = {
+      where: { id },
+      include: [
+        {
+          model: Registration,
+          as: 'registration',
+          required: false,
+          where: { canceled_at: null },
+        },
+      ],
+    };
+
+    const student = await Student.findOne(options);
 
     if (!student) {
-      return res.status(400).json({ error: 'Student not found' });
+      return res.status(400).json({ error: 'Aluno não encontrado' });
     }
 
-    return res.json({ id });
+    if (student.registration && student.registration.active) {
+      return res.json({ id });
+    }
+
+    // Although the student is registered on the platform,
+    // this does not mean that the student has an active registration and can access the gym.
+    return res.status(400).json({ error: 'Sem matrícula ativa' });
   }
 }
 
